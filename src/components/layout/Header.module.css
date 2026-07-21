@@ -1,0 +1,99 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 0 clamp(1.5rem, 4vw, 4rem);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.visible {
+  transform: translateY(0);
+}
+
+.hidden {
+  transform: translateY(-100%);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1400px;
+  margin: 0 auto;
+  height: 5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* ── Logo ── */
+.logo {
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #fafafa;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+}
+
+.logoAccent {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+/* ── Navigation ── */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.5rem, 3vw, 3rem);
+}
+
+.navLink {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.navLink:hover {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.5);
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.navLink:hover::after {
+  width: 100%;
+}
+
+/* ── Header CTA ── */
+.headerCta {
+  display: flex;
+}
+
+.ctaButton {
+  padding: 0.6rem 1.5rem !important;
+  font-size: 0.75rem !important;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .nav {
+    display: none;
+  }
+
+  .inner {
+    height: 4rem;
+  }
+}

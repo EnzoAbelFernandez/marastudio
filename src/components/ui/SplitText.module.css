@@ -1,0 +1,25 @@
+.splitText {
+  display: inline;
+}
+
+.word {
+  display: inline-flex;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.wordInner {
+  display: inline-block;
+  will-change: transform;
+}
+
+.char {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.charInner {
+  display: inline-block;
+  will-change: transform;
+}

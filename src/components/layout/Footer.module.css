@@ -1,0 +1,164 @@
+.footer {
+  position: relative;
+  padding: clamp(6rem, 12vw, 14rem) 0 0;
+  background: #050505;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 clamp(1.5rem, 4vw, 4rem);
+}
+
+/* ── CTA Section ── */
+.ctaSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-bottom: clamp(5rem, 10vw, 10rem);
+}
+
+.ctaHeading {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 7vw, 6rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: #fafafa;
+  margin: 0 0 clamp(2rem, 4vw, 4rem);
+  line-height: 1.05;
+}
+
+.ctaButton {
+  will-change: transform, opacity;
+}
+
+.bigButton {
+  padding: 1.5rem 4rem !important;
+  font-size: 1rem !important;
+  border-width: 1px !important;
+}
+
+.buttonText {
+  display: inline;
+}
+
+.buttonArrow {
+  display: inline-block;
+  font-size: 1.2em;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bigButton:hover .buttonArrow {
+  transform: translate(3px, -3px);
+}
+
+/* ── Info Bar ── */
+.info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 3rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.infoBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.infoLabel {
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.infoValue {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.infoValue:hover {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.socials {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.socialLink {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.socialLink:hover {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.socialLink::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.5);
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.socialLink:hover::after {
+  width: 100%;
+}
+
+/* ── Bottom Bar ── */
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.copyright {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.credit {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.15);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .info {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .bottom {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+}

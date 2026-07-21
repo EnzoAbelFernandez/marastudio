@@ -1,0 +1,14 @@
+.container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Allow mouse events to pass through to the canvas for tracking,
+   but prevent canvas from capturing clicks */
+.container canvas {
+  pointer-events: auto;
+}
