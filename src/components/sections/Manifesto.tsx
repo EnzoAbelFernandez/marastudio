@@ -60,8 +60,9 @@ export function Manifesto() {
 
         {/* The manifesto text — each word is a span */}
         <p ref={textRef} className={styles.text}>
+          <span className="sr-only">{MANIFESTO_TEXT}</span>
           {words.map((word, i) => (
-            <span key={i} className={styles.word}>
+            <span key={i} className={styles.word} aria-hidden="true">
               {word}{' '}
             </span>
           ))}

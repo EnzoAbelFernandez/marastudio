@@ -54,6 +54,7 @@ export const SplitText = forwardRef<SplitTextRef, SplitTextProps>(
               key={wi}
               className={styles.word}
               ref={(el) => { if (el) wordRefs.current.push(el); }}
+              aria-hidden="true"
             >
               <span className={styles.wordInner}>{word}</span>
               {!isLast && '\u00A0'}
@@ -67,6 +68,7 @@ export const SplitText = forwardRef<SplitTextRef, SplitTextProps>(
             key={`${wi}-${ci}`}
             className={styles.char}
             ref={(el) => { if (el) charRefs.current.push(el); }}
+            aria-hidden="true"
           >
             <span className={styles.charInner}>{char}</span>
           </span>
@@ -77,13 +79,17 @@ export const SplitText = forwardRef<SplitTextRef, SplitTextProps>(
             key={wi}
             className={styles.word}
             ref={(el) => { if (el) wordRefs.current.push(el); }}
+            aria-hidden="true"
           >
             {chars}
-            {!isLast && <span className={styles.char}>{'\u00A0'}</span>}
+            {!isLast && <span className={styles.char} aria-hidden="true">{'\u00A0'}</span>}
           </span>
         );
       });
     }, [children, mode]);
+
+    // Screen reader only text that reads the full string normally
+    const srOnlyText = <span key="sr-only" className="sr-only">{children}</span>;
 
     // Use createElement to avoid JSX type inference issues with dynamic tags in React 19
     return createElement(
@@ -92,7 +98,7 @@ export const SplitText = forwardRef<SplitTextRef, SplitTextProps>(
         ref: rootRef,
         className: `${styles.splitText} ${className}`,
       },
-      content
+      [srOnlyText, ...content]
     );
   }
 );

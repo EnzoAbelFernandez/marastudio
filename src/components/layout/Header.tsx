@@ -72,7 +72,7 @@ export function Header() {
       <div className={styles.inner}>
         {/* Logo */}
         <a href="#hero" className={styles.logo}>
-          MARA<span className={styles.logoAccent}>.</span>
+          MARA<span className={styles.logoAccent} aria-hidden="true">.</span>
         </a>
 
         {/* Navigation */}

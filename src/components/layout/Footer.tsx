@@ -94,7 +94,7 @@ export function Footer() {
               className={styles.bigButton}
             >
               <span className={styles.buttonText}>Iniciemos un proyecto</span>
-              <span className={styles.buttonArrow}>↗</span>
+              <span className={styles.buttonArrow} aria-hidden="true">↗</span>
             </MagneticButton>
           </div>
         </div>

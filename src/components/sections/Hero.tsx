@@ -138,7 +138,7 @@ export function Hero() {
         </div>
       </div>
 
-      <div ref={scrollRef} className={styles.scrollIndicator}>
+      <div ref={scrollRef} className={styles.scrollIndicator} aria-hidden="true">
         <div className={styles.scrollLine} />
         <span className={styles.scrollLabel}>Scroll</span>
       </div>
