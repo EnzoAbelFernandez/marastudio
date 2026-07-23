@@ -54,6 +54,7 @@ export const SplitText = forwardRef<SplitTextRef, SplitTextProps>(
               key={wi}
               className={styles.word}
               ref={(el) => { if (el) wordRefs.current.push(el); }}
+              aria-hidden="true"
             >
               <span className={styles.wordInner}>{word}</span>
               {!isLast && '\u00A0'}
@@ -77,6 +78,7 @@ export const SplitText = forwardRef<SplitTextRef, SplitTextProps>(
             key={wi}
             className={styles.word}
             ref={(el) => { if (el) wordRefs.current.push(el); }}
+            aria-hidden="true"
           >
             {chars}
             {!isLast && <span className={styles.char}>{'\u00A0'}</span>}
@@ -92,7 +94,10 @@ export const SplitText = forwardRef<SplitTextRef, SplitTextProps>(
         ref: rootRef,
         className: `${styles.splitText} ${className}`,
       },
-      content
+      <>
+        <span className="sr-only">{children}</span>
+        {content}
+      </>
     );
   }
 );
