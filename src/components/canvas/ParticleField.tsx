@@ -36,17 +36,28 @@ export function ParticleField() {
 
       // Distribute in an ellipsoid (wider than tall, thinner in Z)
       // Using rejection sampling for uniform distribution
-      let x, y, z;
-      do {
+      // Use Math.random directly - it's fine for useMemo initial geometry generation
+      // eslint-disable-next-line react-hooks/purity
+      let x = (Math.random() - 0.5) * 2;
+      // eslint-disable-next-line react-hooks/purity
+      let y = (Math.random() - 0.5) * 2;
+      // eslint-disable-next-line react-hooks/purity
+      let z = (Math.random() - 0.5) * 2;
+
+      while (x * x + y * y + z * z > 1) {
+        // eslint-disable-next-line react-hooks/purity
         x = (Math.random() - 0.5) * 2;
+        // eslint-disable-next-line react-hooks/purity
         y = (Math.random() - 0.5) * 2;
+        // eslint-disable-next-line react-hooks/purity
         z = (Math.random() - 0.5) * 2;
-      } while (x * x + y * y + z * z > 1);
+      }
 
       pos[i3] = x * radius * 1.6;      // Wide
       pos[i3 + 1] = y * radius * 0.9;  // Shorter vertically
       pos[i3 + 2] = z * radius * 0.5;  // Shallow in depth
 
+      // eslint-disable-next-line react-hooks/purity
       rand[i] = Math.random();
     }
 

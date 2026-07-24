@@ -1,0 +1,3 @@
+## 2025-07-24 - Screen Reader UX for animated split text
+**Learning:** Text-splitting for animations (like `SplitText.tsx` or word-by-word reveal in `Manifesto.tsx`) ruins the screen reader experience by causing words to be spelled out letter-by-letter or read disjointedly.
+**Action:** Always provide the full un-split text in a visually hidden (`.sr-only`) element, and wrap the animated split content in an `aria-hidden="true"` container so that screen readers read the sentence smoothly.

@@ -100,7 +100,7 @@ export function CaseStudies() {
       });
 
       // ── Card content reveal ──
-      cards.forEach((card, i) => {
+      cards.forEach((card) => {
         const content = card.querySelector(`.${styles.cardContent}`);
         if (!content) return;
 

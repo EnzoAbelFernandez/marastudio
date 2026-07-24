@@ -11,11 +11,15 @@ export function useMediaQuery(query: string): boolean {
 
   useEffect(() => {
     const mql = window.matchMedia(query);
-    setMatches(mql.matches);
+    // Use requestAnimationFrame to avoid synchronous setState inside effect
+    const initialSync = requestAnimationFrame(() => setMatches(mql.matches));
 
     const handler = (e: MediaQueryListEvent) => setMatches(e.matches);
     mql.addEventListener('change', handler);
-    return () => mql.removeEventListener('change', handler);
+    return () => {
+      cancelAnimationFrame(initialSync);
+      mql.removeEventListener('change', handler);
+    };
   }, [query]);
 
   return matches;

@@ -44,21 +44,21 @@ export function useMouse(options: UseMouseOptions = {}) {
 
   const rafId = useRef<number>(0);
 
-  const updateSmooth = useCallback(() => {
-    state.current.smoothX = lerpValue(
-      state.current.smoothX,
-      state.current.normalizedX,
-      lerpFactor
-    );
-    state.current.smoothY = lerpValue(
-      state.current.smoothY,
-      state.current.normalizedY,
-      lerpFactor
-    );
-    rafId.current = requestAnimationFrame(updateSmooth);
-  }, [lerpFactor]);
-
   useEffect(() => {
+    const updateSmooth = () => {
+      state.current.smoothX = lerpValue(
+        state.current.smoothX,
+        state.current.normalizedX,
+        lerpFactor
+      );
+      state.current.smoothY = lerpValue(
+        state.current.smoothY,
+        state.current.normalizedY,
+        lerpFactor
+      );
+      rafId.current = requestAnimationFrame(updateSmooth);
+    };
+
     const handleMouseMove = (e: MouseEvent) => {
       state.current.x = e.clientX;
       state.current.y = e.clientY;
@@ -73,7 +73,7 @@ export function useMouse(options: UseMouseOptions = {}) {
       window.removeEventListener('mousemove', handleMouseMove);
       cancelAnimationFrame(rafId.current);
     };
-  }, [updateSmooth]);
+  }, [lerpFactor]);
 
   return state;
 }
