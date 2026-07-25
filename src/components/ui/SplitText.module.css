@@ -2,6 +2,10 @@
   display: inline;
 }
 
+.splitWrapper {
+  display: inline;
+}
+
 .word {
   display: inline-flex;
   overflow: hidden;

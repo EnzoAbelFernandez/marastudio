@@ -85,6 +85,16 @@ export const SplitText = forwardRef<SplitTextRef, SplitTextProps>(
       });
     }, [children, mode]);
 
+    // Accessibility: Wrap fragmented text in aria-hidden and add a screen-reader-only version
+    const accessibleContent = (
+      <>
+        <span className="sr-only">{children}</span>
+        <span aria-hidden="true" className={styles.splitWrapper}>
+          {content}
+        </span>
+      </>
+    );
+
     // Use createElement to avoid JSX type inference issues with dynamic tags in React 19
     return createElement(
       tag,
@@ -92,7 +102,7 @@ export const SplitText = forwardRef<SplitTextRef, SplitTextProps>(
         ref: rootRef,
         className: `${styles.splitText} ${className}`,
       },
-      content
+      accessibleContent
     );
   }
 );

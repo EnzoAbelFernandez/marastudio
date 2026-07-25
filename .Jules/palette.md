@@ -1,0 +1,3 @@
+## 2024-05-18 - [Accessibility with Split Text Animations]
+**Learning:** Components that split text for letter-by-letter or word-by-word animation (like GSAP reveals) create severe accessibility issues. Screen readers will read out each character or word individually instead of pronouncing the whole word naturally (e.g., spelling out "M A R A" instead of saying "Mara"). This is a common pattern in high-end design systems that prioritize visual flair.
+**Action:** When implementing split-text components, wrap the fragmented, animatable DOM elements with `aria-hidden="true"` and provide a visually hidden (`.sr-only`) sibling element that contains the full, contiguous text string. This ensures visual animations work without breaking screen reader compatibility.
