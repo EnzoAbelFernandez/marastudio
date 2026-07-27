@@ -86,7 +86,7 @@ export function Header() {
 
         {/* CTA */}
         <div className={styles.headerCta}>
-          <MagneticButton href="#contacto" strength={0.2} className={styles.ctaButton}>
+          <MagneticButton href="#contacto" strength={0.2} size="sm">
             Hablemos
           </MagneticButton>
         </div>

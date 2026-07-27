@@ -1,7 +1,7 @@
 .footer {
   position: relative;
   padding: clamp(6rem, 12vw, 14rem) 0 0;
-  background: #050505;
+  background: var(--color-bg);
   border-top: 1px solid rgba(255, 255, 255, 0.04);
 }
 
@@ -48,7 +48,7 @@
 .buttonArrow {
   display: inline-block;
   font-size: 1.2em;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform var(--duration-base) var(--ease-micro);
 }
 
 .bigButton:hover .buttonArrow {
@@ -87,7 +87,7 @@
   font-weight: 400;
   color: rgba(255, 255, 255, 0.6);
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: color var(--duration-fast) var(--ease-micro);
 }
 
 .infoValue:hover {
@@ -106,7 +106,7 @@
   color: rgba(255, 255, 255, 0.6);
   text-decoration: none;
   position: relative;
-  transition: color 0.3s ease;
+  transition: color var(--duration-fast) var(--ease-micro);
 }
 
 .socialLink:hover {
@@ -121,7 +121,7 @@
   width: 0;
   height: 1px;
   background: rgba(255, 255, 255, 0.5);
-  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: width var(--duration-base) var(--ease-impact);
 }
 
 .socialLink:hover::after {

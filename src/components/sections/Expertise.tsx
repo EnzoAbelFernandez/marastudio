@@ -3,6 +3,7 @@
 import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { EASINGS, DURATIONS } from '@/lib/constants';
 import styles from './Expertise.module.css';
 
 if (typeof window !== 'undefined') {
@@ -13,10 +14,10 @@ interface ExpertiseItem {
   title: string;
   description: string;
   tags: string[];
-  /** Grid area name for CSS grid placement */
   area: string;
-  /** Optional accent — 'featured' makes it visually larger */
   featured?: boolean;
+  /** Row index for stagger grouping — cards on the same row enter together */
+  row: number;
 }
 
 const EXPERTISE_DATA: ExpertiseItem[] = [
@@ -27,6 +28,7 @@ const EXPERTISE_DATA: ExpertiseItem[] = [
     tags: ['Node.js', 'Express', 'MongoDB', 'PostgreSQL', 'Redis'],
     area: 'backend',
     featured: true,
+    row: 0,
   },
   {
     title: 'Frontend Interactivo',
@@ -35,6 +37,7 @@ const EXPERTISE_DATA: ExpertiseItem[] = [
     tags: ['React', 'Next.js', 'Three.js', 'GSAP', 'WebGL'],
     area: 'frontend',
     featured: true,
+    row: 0,
   },
   {
     title: 'Sistemas de Gestión',
@@ -42,6 +45,7 @@ const EXPERTISE_DATA: ExpertiseItem[] = [
       'ERPs, control de stock, facturación, punto de venta. Software que maneja la complejidad real del negocio.',
     tags: ['ERP', 'POS', 'Inventario', 'Facturación'],
     area: 'erp',
+    row: 1,
   },
   {
     title: 'Infraestructura',
@@ -49,6 +53,7 @@ const EXPERTISE_DATA: ExpertiseItem[] = [
       'Deploy automatizado, CI/CD, monitoreo. Infraestructura que no deja de funcionar.',
     tags: ['Docker', 'AWS', 'CI/CD', 'Linux'],
     area: 'infra',
+    row: 1,
   },
   {
     title: 'Diseño de Producto',
@@ -56,15 +61,17 @@ const EXPERTISE_DATA: ExpertiseItem[] = [
       'Desde la investigación de usuario hasta el pixel final. Diseño que resuelve, no que decora.',
     tags: ['UI/UX', 'Figma', 'Design Systems', 'Prototipado'],
     area: 'design',
+    row: 1,
   },
 ];
 
 /**
  * Expertise / Stack Técnico Section
  *
- * Asymmetric bento grid showcasing capabilities.
- * Each card has a subtle scale + glow animation on scroll-in.
- * Highlights the duality: heavy backend ↔ interactive frontend.
+ * Asymmetric bento grid. Featured cards (row 0) enter with
+ * a slower, more deliberate reveal. Secondary cards (row 1)
+ * enter as a batch with faster timing — they're catalogue,
+ * not showcase.
  */
 export function Expertise() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -73,23 +80,47 @@ export function Expertise() {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      const cards = sectionRef.current!.querySelectorAll(`.${styles.card}`);
+      const featuredCards = sectionRef.current!.querySelectorAll(`.${styles.featured}`);
+      const regularCards = sectionRef.current!.querySelectorAll(`.${styles.card}:not(.${styles.featured})`);
 
-      gsap.set(cards, { opacity: 0, y: 40 });
+      // ── Featured row: slower, deliberate, uses reveal curve ──
+      if (featuredCards.length) {
+        gsap.set(featuredCards, { opacity: 0, y: 50, scale: 0.98 });
 
-      ScrollTrigger.batch(cards, {
-        onEnter: (batch) => {
-          gsap.to(batch, {
-            opacity: 1,
-            y: 0,
-            duration: 0.9,
-            ease: 'expo.out',
-            stagger: 0.1,
-          });
-        },
-        start: 'top 85%',
-        once: true,
-      });
+        ScrollTrigger.batch(featuredCards, {
+          onEnter: (batch) => {
+            gsap.to(batch, {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: DURATIONS.slow,
+              ease: EASINGS.reveal,
+              stagger: 0.15,
+            });
+          },
+          start: 'top 85%',
+          once: true,
+        });
+      }
+
+      // ── Secondary row: faster batch, less fanfare ──
+      if (regularCards.length) {
+        gsap.set(regularCards, { opacity: 0, y: 30 });
+
+        ScrollTrigger.batch(regularCards, {
+          onEnter: (batch) => {
+            gsap.to(batch, {
+              opacity: 1,
+              y: 0,
+              duration: DURATIONS.normal,
+              ease: EASINGS.micro,
+              stagger: 0.06,
+            });
+          },
+          start: 'top 85%',
+          once: true,
+        });
+      }
     }, sectionRef);
 
     return () => ctx.revert();

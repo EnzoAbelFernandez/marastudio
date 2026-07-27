@@ -3,6 +3,7 @@
 import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { EASINGS, DURATIONS } from '@/lib/constants';
 import { MagneticButton } from '@/components/ui/MagneticButton';
 import styles from './Footer.module.css';
 
@@ -32,8 +33,8 @@ export function Footer() {
         gsap.to(heading, {
           opacity: 1,
           y: 0,
-          duration: 1.2,
-          ease: 'expo.out',
+          duration: DURATIONS.slow,
+          ease: EASINGS.impact,
           scrollTrigger: {
             trigger: sectionRef.current,
             start: 'top 70%',
@@ -47,9 +48,9 @@ export function Footer() {
         gsap.to(button, {
           opacity: 1,
           y: 0,
-          duration: 1,
+          duration: DURATIONS.slow,
           delay: 0.2,
-          ease: 'expo.out',
+          ease: EASINGS.micro,
           scrollTrigger: {
             trigger: sectionRef.current,
             start: 'top 70%',
@@ -62,7 +63,7 @@ export function Footer() {
         gsap.set(info, { opacity: 0 });
         gsap.to(info, {
           opacity: 1,
-          duration: 0.8,
+          duration: DURATIONS.normal,
           delay: 0.5,
           scrollTrigger: {
             trigger: sectionRef.current,
@@ -91,7 +92,7 @@ export function Footer() {
             <MagneticButton
               href="mailto:hola@marastudio.dev"
               strength={0.35}
-              className={styles.bigButton}
+              size="lg"
             >
               <span className={styles.buttonText}>Iniciemos un proyecto</span>
               <span className={styles.buttonArrow}>↗</span>

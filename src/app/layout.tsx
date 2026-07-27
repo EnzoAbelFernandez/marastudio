@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { Inter, Space_Grotesk } from 'next/font/google';
 import { SmoothScroll } from '@/components/layout/SmoothScroll';
 import { Header } from '@/components/layout/Header';
+import { GrainOverlay } from '@/components/ui/GrainOverlay';
+import { Preloader } from '@/components/ui/Preloader';
 import './globals.css';
 
 // ── Typography ──
@@ -46,10 +48,12 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${inter.variable} ${spaceGrotesk.variable}`}>
       <body>
+        <Preloader />
         <SmoothScroll>
           <Header />
           {children}
         </SmoothScroll>
+        <GrainOverlay />
       </body>
     </html>
   );

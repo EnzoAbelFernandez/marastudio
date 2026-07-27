@@ -12,12 +12,14 @@ uniform float uNoiseScale;
 uniform float uNoiseSpeed;
 uniform float uPointSize;
 uniform float uPixelRatio;
+uniform float uReducedMotion; // 0.0 = normal, 1.0 = no ambient motion
 
 attribute float aRandom;      // Per-particle random seed
 attribute vec3 aBasePosition; // Original rest position
 
 varying float vAlpha;
 varying float vDistFromCenter;
+varying float vInfluence;      // Mouse proximity — passed to fragment for accent tinting
 
 // ── Simplex noise helpers ──────────────────
 vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
@@ -95,20 +97,24 @@ void main() {
   float noiseY = snoise(noiseInput + 100.0) * 0.3;
   float noiseZ = snoise(noiseInput + 200.0) * 0.15;
 
-  pos += vec3(noiseX, noiseY, noiseZ);
+  // Reduced motion: zero the noise drift but keep rest positions
+  pos += vec3(noiseX, noiseY, noiseZ) * (1.0 - uReducedMotion);
 
   // ── Mouse repulsion ──
-  // Project mouse position into 3D space (centered at z=0 plane)
   vec3 mousePos3D = vec3(uMouse.x * 5.0, uMouse.y * 3.0, 0.0);
   vec3 diff = pos - mousePos3D;
   float dist = length(diff);
   float influence = smoothstep(uMouseRadius, 0.0, dist);
 
-  // Push particles away from cursor
+  // Push particles away from cursor (kept active even in reduced-motion
+  // because it's a direct response to user input, not ambient motion)
   vec3 repulsion = normalize(diff + 0.001) * influence * uMouseStrength;
   pos += repulsion;
 
-  // ── Compute alpha based on distance from center ──
+  // Pass influence to fragment for accent color proximity tinting
+  vInfluence = influence;
+
+  // ── Compute alpha ──
   vDistFromCenter = length(aBasePosition.xy) / 6.0;
   vAlpha = mix(0.8, 0.15, vDistFromCenter) * (1.0 - influence * 0.3);
   vAlpha *= 0.6 + aRandom * 0.4;

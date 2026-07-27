@@ -44,7 +44,43 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     });
     gsap.ticker.lagSmoothing(0);
 
+    // ── Smooth Anchor Navigation Handler ──
+    const handleAnchorClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const anchor = target.closest('a');
+      if (!anchor) return;
+
+      const href = anchor.getAttribute('href');
+      if (!href) return;
+
+      const hashIndex = href.indexOf('#');
+      if (hashIndex !== -1) {
+        const hash = href.slice(hashIndex);
+        const path = href.slice(0, hashIndex);
+
+        // Match current page or root/hash link
+        const isCurrentPage =
+          path === '' ||
+          path === '/' ||
+          path === window.location.pathname;
+
+        if (isCurrentPage && hash.length > 1) {
+          const targetElement = document.querySelector(hash);
+          if (targetElement) {
+            e.preventDefault();
+            lenis.scrollTo(targetElement as HTMLElement, {
+              duration: 1.4,
+              offset: 0,
+            });
+          }
+        }
+      }
+    };
+
+    document.addEventListener('click', handleAnchorClick);
+
     return () => {
+      document.removeEventListener('click', handleAnchorClick);
       lenis.destroy();
       lenisRef.current = null;
     };

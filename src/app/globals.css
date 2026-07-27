@@ -3,36 +3,72 @@
 /* ─────────────────────────────────────────────
    Mara Studio — Global Design Tokens
    
-   Philosophy: Monochromatic purity.
-   Black is the canvas. White is the statement.
-   Grey exists only to create hierarchy.
+   Philosophy: Monochromatic foundation with a single
+   warm accent used surgically in ≤3 places.
    ───────────────────────────────────────────── */
 
 :root {
-  /* ── Colors ── */
+  /* ── Colors — Monochromatic ── */
   --color-bg: #050505;
   --color-bg-elevated: #0a0a0a;
   --color-text: #fafafa;
   --color-text-muted: #666666;
-  --color-text-subtle: #333333;
+  --color-text-subtle: #3a3a3a;
   --color-border: #1a1a1a;
-  --color-border-hover: #333333;
+  --color-border-hover: #2a2a2a;
+
+  /* ── Colors — Accent (desaturated warm amber / bronze) ── */
+  --color-accent: #b8956a;
+  --color-accent-dim: rgba(184, 149, 106, 0.6);
+  --color-glow: rgba(184, 149, 106, 0.12);
+  --color-glow-strong: rgba(184, 149, 106, 0.25);
 
   /* ── Typography ── */
   --font-heading: var(--font-space-grotesk), 'Space Grotesk', system-ui, sans-serif;
   --font-body: var(--font-inter), 'Inter', system-ui, sans-serif;
 
-  /* ── Spacing scale ── */
+  /* ── Spacing — Fluid scale ── */
   --space-xs: 0.5rem;
   --space-sm: 1rem;
   --space-md: 2rem;
-  --space-lg: 4rem;
-  --space-xl: 8rem;
-  --space-2xl: 12rem;
+  --space-lg: clamp(2.5rem, 5vw, 4rem);
+  --space-xl: clamp(4rem, 8vw, 8rem);
+  --space-2xl: clamp(6rem, 12vw, 10rem);
 
-  /* ── Easing ── */
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  /* ── Easing — Differentiated by movement type ──
+     Not a single "house curve". Each category of motion
+     has a deliberately distinct character.
+  */
+
+  /* Impact: entries with weight and a subtle overshoot.
+     Used for Hero char-reveal, section headings appearing. */
+  --ease-impact: cubic-bezier(0.22, 1.15, 0.36, 1);
+
+  /* Reveal: fast attack, long coast. Neutral, informational.
+     Used for Expertise cards, content fading in. */
+  --ease-reveal: cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  /* Micro: short, dry, no drama. For hover states, underlines,
+     border-color changes. Faster to not compete with content. */
+  --ease-micro: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Out: the original expo-out, kept only where appropriate
+     (overlay fades, CTA button magnetism already uses power2). */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* ── Duration tokens ── */
+  --duration-fast: 0.25s;
+  --duration-base: 0.5s;
+  --duration-slow: 0.8s;
+
+  /* ── Depth — Shadows (layered, not flat) ── */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.4), 0 2px 6px rgba(0,0,0,0.2);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.5), 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.4);
+  --shadow-glow: 0 0 30px var(--color-glow), 0 0 60px rgba(184, 149, 106, 0.06);
+
+  /* ── Grain ── */
+  --noise-opacity: 0.035;
 }
 
 /* ── Reset & Base ── */
@@ -48,7 +84,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  scroll-behavior: auto; /* Lenis handles smooth scroll */
+  scroll-behavior: auto;
 }
 
 body {
@@ -59,9 +95,9 @@ body {
   overflow-x: hidden;
 }
 
-/* ── Selection ── */
+/* ── Selection — accent tinted ── */
 ::selection {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(184, 149, 106, 0.2);
   color: #ffffff;
 }
 
@@ -73,7 +109,7 @@ a {
 
 /* ── Focus visible (accessibility) ── */
 :focus-visible {
-  outline: 1px solid rgba(255, 255, 255, 0.5);
+  outline: 1px solid var(--color-accent-dim);
   outline-offset: 2px;
 }
 
@@ -93,4 +129,16 @@ html.lenis body {
 
 .lenis.lenis-stopped {
   overflow: hidden;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

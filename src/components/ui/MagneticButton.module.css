@@ -7,7 +7,7 @@
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 100px;
   background: transparent;
-  color: #fafafa;
+  color: var(--color-text);
   font-family: var(--font-heading);
   font-size: 0.875rem;
   font-weight: 500;
@@ -16,8 +16,8 @@
   text-decoration: none;
   cursor: pointer;
   transition:
-    border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-    background-color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    border-color var(--duration-base) var(--ease-micro),
+    background-color var(--duration-base) var(--ease-micro);
   overflow: hidden;
 }
 
@@ -26,9 +26,9 @@
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--color-glow);
   opacity: 0;
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity var(--duration-base) var(--ease-micro);
 }
 
 .magnetic:hover::before {
@@ -36,7 +36,20 @@
 }
 
 .magnetic:hover {
-  border-color: rgba(255, 255, 255, 0.3);
+  border-color: var(--color-accent-dim);
+}
+
+/* ── Size variant: small (Header CTA) ── */
+.sm {
+  padding: 0.6rem 1.5rem;
+  font-size: 0.75rem;
+}
+
+/* ── Size variant: large (Footer CTA) ── */
+.lg {
+  padding: 1.5rem 4rem;
+  font-size: 1rem;
+  border-width: 1px;
 }
 
 .inner {

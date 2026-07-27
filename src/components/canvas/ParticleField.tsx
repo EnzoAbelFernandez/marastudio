@@ -1,12 +1,11 @@
 'use client';
 
-import { useRef, useMemo } from 'react';
+import { useRef, useMemo, useEffect, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useMouse } from '@/hooks/useMouse';
-import { PARTICLES } from '@/lib/constants';
+import { PARTICLES, ACCENT } from '@/lib/constants';
 
-// Import shaders as raw strings
 import vertexShader from './shaders/particle.vert';
 import fragmentShader from './shaders/particle.frag';
 
@@ -14,17 +13,27 @@ import fragmentShader from './shaders/particle.frag';
  * Interactive particle field that responds to mouse movement.
  *
  * Architecture:
- * - Uses BufferGeometry + Points for maximum GPU performance
- * - Custom shaders handle noise-based drift and mouse repulsion
- * - All position updates happen on GPU (vertex shader) — zero CPU overhead per frame
+ * - BufferGeometry + Points for maximum GPU performance
+ * - Custom shaders: noise drift + mouse repulsion on GPU
  * - Only uniform updates (time, mouse) happen per frame in JS
+ * - Accent color tint appears on particles near cursor (subliminal)
+ * - prefers-reduced-motion zeroes ambient noise drift
  */
 export function ParticleField() {
   const pointsRef = useRef<THREE.Points>(null);
   const materialRef = useRef<THREE.ShaderMaterial>(null);
   const mouse = useMouse({ lerp: 0.06 });
+  const [reducedMotion, setReducedMotion] = useState(false);
 
-  // ── Generate particle positions ──
+  // Detect prefers-reduced-motion
+  useEffect(() => {
+    const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReducedMotion(mql.matches);
+    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mql.addEventListener('change', handler);
+    return () => mql.removeEventListener('change', handler);
+  }, []);
+
   const { positions, randoms } = useMemo(() => {
     const count = PARTICLES.count;
     const pos = new Float32Array(count * 3);
@@ -33,9 +42,6 @@ export function ParticleField() {
 
     for (let i = 0; i < count; i++) {
       const i3 = i * 3;
-
-      // Distribute in an ellipsoid (wider than tall, thinner in Z)
-      // Using rejection sampling for uniform distribution
       let x, y, z;
       do {
         x = (Math.random() - 0.5) * 2;
@@ -43,17 +49,15 @@ export function ParticleField() {
         z = (Math.random() - 0.5) * 2;
       } while (x * x + y * y + z * z > 1);
 
-      pos[i3] = x * radius * 1.6;      // Wide
-      pos[i3 + 1] = y * radius * 0.9;  // Shorter vertically
-      pos[i3 + 2] = z * radius * 0.5;  // Shallow in depth
-
+      pos[i3] = x * radius * 1.6;
+      pos[i3 + 1] = y * radius * 0.9;
+      pos[i3 + 2] = z * radius * 0.5;
       rand[i] = Math.random();
     }
 
     return { positions: pos, randoms: rand };
   }, []);
 
-  // ── Shader uniforms ──
   const uniforms = useMemo(
     () => ({
       uTime: { value: 0 },
@@ -64,11 +68,13 @@ export function ParticleField() {
       uNoiseSpeed: { value: PARTICLES.noiseSpeed },
       uPointSize: { value: PARTICLES.size },
       uPixelRatio: { value: typeof window !== 'undefined' ? Math.min(window.devicePixelRatio, 2) : 1 },
+      uReducedMotion: { value: 0.0 },
+      uAccentColor: { value: new THREE.Color(...ACCENT.rgb) },
+      uAccentMix: { value: ACCENT.glowMix },
     }),
     []
   );
 
-  // ── Per-frame update (runs at display refresh rate) ──
   useFrame((state) => {
     if (!materialRef.current) return;
 
@@ -77,9 +83,9 @@ export function ParticleField() {
       mouse.current.smoothX,
       mouse.current.smoothY
     );
+    materialRef.current.uniforms.uReducedMotion.value = reducedMotion ? 1.0 : 0.0;
   });
 
-  // ── Create buffer attributes imperatively for type safety ──
   const geometry = useMemo(() => {
     const geo = new THREE.BufferGeometry();
     geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));

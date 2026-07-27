@@ -1,0 +1,60 @@
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: inherit;
+  cursor: ew-resize; /* Indicates horizontal scrubbing */
+}
+
+.imageWrapper {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  /* Use hardware acceleration to avoid layout thrashing */
+  will-change: opacity;
+}
+
+.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.image {
+  object-fit: contain;
+  padding: 2rem; /* Creates a premium framed look */
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.container:hover .active .image {
+  /* Subtle scale up on hover to feel more interactive */
+  transform: scale(1.03);
+}
+
+/* Indicators */
+.indicators {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 4px 8px;
+  border-radius: 12px;
+  backdrop-filter: blur(4px);
+}
+
+.dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transition: background-color 0.3s ease;
+}
+
+.dotActive {
+  background: var(--color-accent);
+}

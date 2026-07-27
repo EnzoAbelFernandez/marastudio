@@ -5,7 +5,7 @@
   right: 0;
   z-index: 100;
   padding: 0 clamp(1.5rem, 4vw, 4rem);
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform var(--duration-slow) var(--ease-impact);
 }
 
 .visible {
@@ -37,7 +37,7 @@
 }
 
 .logoAccent {
-  color: rgba(255, 255, 255, 0.25);
+  color: var(--color-accent-dim);
 }
 
 /* ── Navigation ── */
@@ -55,7 +55,7 @@
   text-decoration: none;
   letter-spacing: 0.02em;
   position: relative;
-  transition: color 0.3s ease;
+  transition: color var(--duration-fast) var(--ease-micro);
 }
 
 .navLink:hover {
@@ -70,7 +70,7 @@
   width: 0;
   height: 1px;
   background: rgba(255, 255, 255, 0.5);
-  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: width var(--duration-base) var(--ease-impact);
 }
 
 .navLink:hover::after {

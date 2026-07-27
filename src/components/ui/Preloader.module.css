@@ -1,0 +1,68 @@
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background-color: var(--color-bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(2rem, 4vw, 4rem);
+  will-change: transform;
+}
+
+.inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 100%;
+}
+
+.brand {
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.counterBlock {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
+.counter {
+  font-family: var(--font-heading);
+  font-size: clamp(4rem, 12vw, 12rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: var(--color-text);
+  line-height: 0.8;
+  font-variant-numeric: tabular-nums;
+}
+
+.percent {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 4vw, 4rem);
+  font-weight: 300;
+  color: var(--color-accent);
+}
+
+/* ── Progress line at bottom ── */
+.progressTrack {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.progressBar {
+  width: 100%;
+  height: 100%;
+  background: var(--color-accent);
+  transform-origin: left;
+  transition: transform 1.8s cubic-bezier(0.95, 0.05, 0.795, 0.035); /* matches expo.in */
+}

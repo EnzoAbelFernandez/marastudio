@@ -2,12 +2,15 @@
 
 import { useRef, useCallback, useEffect, type ReactNode } from 'react';
 import gsap from 'gsap';
+import { EASINGS } from '@/lib/constants';
 import styles from './MagneticButton.module.css';
 
 interface MagneticButtonProps {
   children: ReactNode;
   /** Pull strength (0–1). Default: 0.3 */
   strength?: number;
+  /** Size variant */
+  size?: 'default' | 'sm' | 'lg';
   /** Additional className */
   className?: string;
   /** Click handler */
@@ -24,6 +27,7 @@ interface MagneticButtonProps {
 export function MagneticButton({
   children,
   strength = 0.3,
+  size = 'default',
   className = '',
   onClick,
   href,
@@ -34,17 +38,18 @@ export function MagneticButton({
 
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
-      if (!buttonRef.current || !innerRef.current || !boundingRef.current) return;
+      if (!buttonRef.current || !innerRef.current) return;
 
-      const { left, top, width, height } = boundingRef.current;
-      const deltaX = e.clientX - (left + width / 2);
-      const deltaY = e.clientY - (top + height / 2);
+      // Recalculate on every move — fixes stale rect during layout shifts
+      const bounds = buttonRef.current.getBoundingClientRect();
+      const deltaX = e.clientX - (bounds.left + bounds.width / 2);
+      const deltaY = e.clientY - (bounds.top + bounds.height / 2);
 
       gsap.to(innerRef.current, {
         x: deltaX * strength,
         y: deltaY * strength,
         duration: 0.4,
-        ease: 'power2.out',
+        ease: EASINGS.micro,
       });
     },
     [strength]
@@ -62,7 +67,7 @@ export function MagneticButton({
       x: 0,
       y: 0,
       duration: 0.7,
-      ease: 'elastic.out(1, 0.3)',
+      ease: EASINGS.elastic,
     });
   }, []);
 
@@ -87,12 +92,15 @@ export function MagneticButton({
     </span>
   );
 
+  const sizeClass = size === 'lg' ? styles.lg : size === 'sm' ? styles.sm : '';
+  const classes = `${styles.magnetic} ${sizeClass} ${className}`.trim();
+
   if (href) {
     return (
       <a
         ref={buttonRef}
         href={href}
-        className={`${styles.magnetic} ${className}`}
+        className={classes}
         onClick={onClick}
       >
         {inner}
@@ -104,7 +112,7 @@ export function MagneticButton({
     <button
       ref={buttonRef}
       type="button"
-      className={`${styles.magnetic} ${className}`}
+      className={classes}
       onClick={onClick}
     >
       {inner}

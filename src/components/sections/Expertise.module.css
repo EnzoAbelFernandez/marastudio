@@ -1,7 +1,7 @@
 .expertise {
   position: relative;
   padding: clamp(6rem, 12vw, 12rem) 0;
-  background: #050505;
+  background: var(--color-bg);
 }
 
 .container {
@@ -56,8 +56,8 @@
   background: rgba(255, 255, 255, 0.02);
   overflow: hidden;
   transition:
-    border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-    background-color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    border-color var(--duration-base) var(--ease-micro),
+    background-color var(--duration-base) var(--ease-micro);
   will-change: transform, opacity;
 }
 
@@ -116,7 +116,7 @@
   padding: 0.3rem 0.75rem;
   border-radius: 100px;
   border: 1px solid rgba(255, 255, 255, 0.06);
-  transition: color 0.3s ease, border-color 0.3s ease;
+  transition: color var(--duration-fast) var(--ease-micro), border-color var(--duration-fast) var(--ease-micro);
 }
 
 .card:hover .tag {
@@ -133,11 +133,11 @@
   height: 200%;
   background: radial-gradient(
     circle at center,
-    rgba(255, 255, 255, 0.03) 0%,
+    var(--color-glow) 0%,
     transparent 50%
   );
   opacity: 0;
-  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity var(--duration-slow) var(--ease-reveal);
   pointer-events: none;
 }
 

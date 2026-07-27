@@ -1,12 +1,11 @@
 .caseStudies {
   position: relative;
-  background: #050505;
+  background: var(--color-bg);
   overflow: hidden;
 }
 
-/* ── Header (pinned within the section) ── */
 .header {
-  padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 4vw, 4rem) 0;
+  padding: clamp(2rem, 5vh, 5rem) clamp(1.5rem, 4vw, 4rem) 0;
   max-width: 1400px;
   margin: 0 auto;
 }
@@ -19,15 +18,16 @@
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.3);
-  margin-bottom: 1rem;
+  margin-bottom: clamp(0.5rem, 2vh, 1rem);
 }
 
 .heading {
   font-family: var(--font-heading);
-  font-size: clamp(3rem, 7vw, 6rem);
+  /* Prevents heading from being huge on ultrawides with low height */
+  font-size: clamp(3rem, min(7vw, 12vh), 6rem);
   font-weight: 700;
   letter-spacing: -0.04em;
-  color: #fafafa;
+  color: var(--color-text);
   margin: 0;
   line-height: 1;
 }
@@ -41,17 +41,31 @@
   display: flex;
   align-items: stretch;
   gap: 2rem;
-  padding: clamp(2rem, 4vw, 4rem) clamp(1.5rem, 4vw, 4rem);
+  padding: clamp(1rem, 4vh, 4rem) clamp(1.5rem, 4vw, 4rem);
   will-change: transform;
 }
 
-/* ── Project Card ── */
+/* ── Project Card (base) ── */
 .card {
   flex: 0 0 auto;
-  width: clamp(320px, 45vw, 700px);
+  width: clamp(320px, min(42vw, 65vh), 650px);
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: clamp(1rem, 2vh, 1.5rem);
+}
+
+/* ── Featured Project — the narrative climax ── */
+.featured {
+  width: clamp(380px, min(50vw, 75vh), 800px);
+}
+
+.featured .imageWrapper {
+  border-color: var(--color-glow);
+  box-shadow: var(--shadow-glow);
+}
+
+.featured .cardTitle {
+  color: var(--color-accent);
 }
 
 /* ── Image Area ── */
@@ -59,9 +73,11 @@
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 10;
+  max-height: 50vh; /* Limits image height on short wide screens */
   border-radius: 8px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: border-color var(--duration-slow) var(--ease-micro);
 }
 
 .imageInner {
@@ -73,7 +89,21 @@
   align-items: center;
   justify-content: center;
   will-change: transform;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform var(--duration-slow) var(--ease-micro);
+}
+
+.cardLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.clickableCard {
+  cursor: pointer;
+}
+
+.clickableCard:hover .imageWrapper {
+  box-shadow: 0 0 0 1px var(--color-accent), 0 0 30px rgba(184, 149, 106, 0.2);
 }
 
 .card:hover .imageInner {
@@ -134,9 +164,10 @@
   font-family: var(--font-heading);
   font-size: clamp(1.25rem, 2.5vw, 2rem);
   font-weight: 600;
-  color: #fafafa;
+  color: var(--color-text);
   margin: 0 0 0.5rem;
   letter-spacing: -0.02em;
+  transition: color var(--duration-base) var(--ease-micro);
 }
 
 .cardDescription {
@@ -165,13 +196,27 @@
   letter-spacing: 0.02em;
 }
 
-/* ── Responsive ── */
+/* ── Responsive: Mobile — native scroll with snap, no pin ── */
 @media (max-width: 768px) {
   .track {
     gap: 1.25rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .track::-webkit-scrollbar {
+    display: none;
   }
 
   .card {
     width: 85vw;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+
+  .featured {
+    width: 90vw;
   }
 }

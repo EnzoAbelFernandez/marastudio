@@ -1,12 +1,5 @@
 /* ─────────────────────────────────────────────
    Hero Section Styles
-   
-   Design rationale:
-   - Full viewport height with centered content
-   - Typography uses mix-blend-mode: difference for
-     dynamic contrast against the particle field
-   - Font sizes use clamp() for fluid scaling
-   - Monochromatic palette: pure whites on deep black
    ───────────────────────────────────────────── */
 
 .hero {
@@ -18,14 +11,13 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: #050505;
+  background: var(--color-bg);
 }
 
-/* Entrance overlay — starts opaque, fades to reveal content */
 .overlay {
   position: absolute;
   inset: 0;
-  background: #050505;
+  background: var(--color-bg);
   z-index: 5;
   pointer-events: none;
 }
@@ -55,11 +47,13 @@
   font-family: var(--font-heading);
   font-size: clamp(4.5rem, 15vw, 14rem);
   font-weight: 800;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.02em;
+  margin-right: 0.02em; /* Compensa espacio fantasma del tracking negativo */
   color: #ffffff;
-  margin: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+  margin-top: 0;
   line-height: 0.9;
-  /* Enable 3D transforms on children */
   perspective: 600px;
 }
 
@@ -68,8 +62,11 @@
   font-size: clamp(3rem, 10vw, 9rem);
   font-weight: 300;
   letter-spacing: 0.15em;
+  margin-right: -0.15em; /* Compensa espacio fantasma final para alinear centro real */
   color: #ffffff;
-  margin: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+  margin-top: 0;
   line-height: 1;
   text-transform: uppercase;
 }
@@ -86,12 +83,11 @@
   line-height: 1.6;
 }
 
-/* ── CTA ── */
 .cta {
   margin-top: clamp(2rem, 4vw, 3.5rem);
 }
 
-/* ── Scroll Indicator ── */
+/* ── Scroll Indicator — dual element contraphase ── */
 .scrollIndicator {
   position: absolute;
   bottom: 2.5rem;
@@ -112,7 +108,7 @@
     rgba(255, 255, 255, 0) 0%,
     rgba(255, 255, 255, 0.4) 100%
   );
-  animation: scrollPulse 2s ease-in-out infinite;
+  animation: scrollPulse 2.4s ease-in-out infinite;
 }
 
 .scrollLabel {
@@ -122,37 +118,57 @@
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.35);
+  /* Contraphase: label breathes opposite to line */
+  animation: scrollLabelPulse 2.4s ease-in-out infinite;
 }
 
-/* ── Scroll pulse animation ── */
 @keyframes scrollPulse {
   0%, 100% {
-    opacity: 0.4;
+    opacity: 0.3;
     transform: scaleY(1);
   }
   50% {
-    opacity: 1;
-    transform: scaleY(1.3);
+    opacity: 0.8;
+    transform: scaleY(1.25);
     transform-origin: top;
   }
 }
 
-/* ── Responsive ── */
+@keyframes scrollLabelPulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 0.2;
+    transform: translateY(2px);
+  }
+}
+
+/* ── Responsive ──
+   CRITICAL: mix-blend-mode is the only visual signature —
+   do NOT disable it on mobile. Instead, it stays on but
+   the title block gets a semi-transparent backdrop for
+   minimum legibility when particles pass behind text. */
 @media (max-width: 768px) {
   .hero {
     min-height: 100svh;
   }
 
-  .content {
-    mix-blend-mode: normal;
+  .titleBlock {
+    /* Keeps blend-mode active but adds subtle contrast backing */
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
   }
 
   .title {
-    letter-spacing: -0.03em;
+    /* Inherit global -0.02em (which prevents collision) and its margin-right */
   }
 
   .subtitle {
     letter-spacing: 0.1em;
+    margin-right: -0.1em;
   }
 
   .scrollIndicator {
