@@ -1,0 +1,3 @@
+## 2024-05-24 - Accessible Text Splitting
+**Learning:** Text-splitting animation components (like those used with GSAP) fragment text into individual characters or words, which causes screen readers to read them incorrectly or disjointedly.
+**Action:** When creating text-splitting components, wrap the fragmented content in `aria-hidden="true"` and add a sibling element with `.sr-only` containing the full, unfragmented text to ensure proper screen reader pronunciation.
