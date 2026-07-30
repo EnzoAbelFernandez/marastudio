@@ -32,3 +32,11 @@
     animation: none;
   }
 }
+
+/* Mobile: disable grain entirely — the animated feTurbulence SVG filter
+   with mix-blend-mode causes heavy GPU re-rendering on mobile devices */
+@media (max-width: 768px) {
+  .grain {
+    display: none;
+  }
+}

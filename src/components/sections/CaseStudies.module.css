@@ -219,4 +219,14 @@
   .featured {
     width: 90vw;
   }
+
+  .cardDescription {
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
+
+  .imageWrapper {
+    aspect-ratio: 16 / 10;
+    max-height: none;
+  }
 }

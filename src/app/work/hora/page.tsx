@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { EASINGS, DURATIONS } from '@/lib/constants';
@@ -15,11 +15,17 @@ if (typeof window !== 'undefined') {
 export default function HoraCaseStudy() {
   const containerRef = useRef<HTMLDivElement>(null);
   
+  // Ensure we start at the top for this specific page
+  useLayoutEffect(() => {
+    if (typeof window !== 'undefined' && (window as any).lenis) {
+      (window as any).lenis.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, []);
+
   useEffect(() => {
     if (!containerRef.current) return;
-    
-    // We scroll to top on load for Next.js App Router transitions
-    window.scrollTo(0, 0);
 
     const ctx = gsap.context(() => {
       const headerElements = containerRef.current!.querySelectorAll(`.${styles.headerContent} > *`);

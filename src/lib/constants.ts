@@ -64,3 +64,14 @@ export const ACCENT = {
   rgb: [0.722, 0.584, 0.416] as const,
   glowMix: 0.1,
 } as const;
+
+export const PARTICLES_MOBILE = {
+  count: 4000,
+  size: 2.2,
+  radius: 6,
+  mouseInfluence: 2.0,
+  mouseRadius: 2.5,
+  noiseScale: 0.003,
+  noiseSpeed: 0.12,
+} as const;
+

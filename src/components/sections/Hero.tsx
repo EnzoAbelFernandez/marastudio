@@ -21,6 +21,7 @@ function getInnerElements(chars: HTMLSpanElement[]): HTMLElement[] {
 
 export function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const titleBlockRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<SplitTextRef>(null);
   const subtitleRef = useRef<SplitTextRef>(null);
   const taglineRef = useRef<HTMLParagraphElement>(null);
@@ -113,11 +114,11 @@ export function Hero() {
 
   return (
     <section ref={containerRef} className={styles.hero} id="hero">
-      <Scene />
+      <Scene textRef={titleBlockRef} />
       <div ref={overlayRef} className={styles.overlay} />
 
       <div className={styles.content}>
-        <div className={styles.titleBlock}>
+        <div className={styles.titleBlock} ref={titleBlockRef}>
           <SplitText ref={titleRef} as="h1" mode="chars" className={styles.title}>
             MARA
           </SplitText>

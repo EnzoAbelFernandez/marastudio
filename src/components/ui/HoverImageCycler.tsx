@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 import styles from './HoverImageCycler.module.css';
 
@@ -54,6 +54,16 @@ export function HoverImageCycler({
     // Reset to the first image when leaving
     setActiveIndex(0);
   };
+
+  useEffect(() => {
+    // Auto-cycle images on mobile to avoid touchmove conflicts with horizontal scroll
+    if (typeof window !== 'undefined' && window.innerWidth < 768 && images.length > 1) {
+      const interval = setInterval(() => {
+        setActiveIndex((prev) => (prev + 1) % images.length);
+      }, 2500);
+      return () => clearInterval(interval);
+    }
+  }, [images.length]);
 
   return (
     <div 

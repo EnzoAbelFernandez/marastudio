@@ -35,6 +35,11 @@ export function MagneticButton({
   const buttonRef = useRef<HTMLButtonElement & HTMLAnchorElement>(null);
   const innerRef = useRef<HTMLSpanElement>(null);
   const boundingRef = useRef<DOMRect | null>(null);
+  const isTouchDevice = useRef(false);
+
+  useEffect(() => {
+    isTouchDevice.current = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  }, []);
 
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
@@ -73,7 +78,7 @@ export function MagneticButton({
 
   useEffect(() => {
     const el = buttonRef.current;
-    if (!el) return;
+    if (!el || isTouchDevice.current) return;
 
     el.addEventListener('mousemove', handleMouseMove);
     el.addEventListener('mouseenter', handleMouseEnter);

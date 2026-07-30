@@ -7,8 +7,16 @@
   pointer-events: none;
 }
 
-/* Allow mouse events to pass through to the canvas for tracking,
-   but prevent canvas from capturing clicks */
-.container canvas {
-  pointer-events: auto;
+/* Desktop: allow mouse events on canvas for particle interaction */
+@media (min-width: 769px) {
+  .container canvas {
+    pointer-events: auto;
+  }
+}
+
+/* Mobile: keep canvas non-interactive so it doesn't block scroll */
+@media (max-width: 768px) {
+  .container canvas {
+    pointer-events: none;
+  }
 }

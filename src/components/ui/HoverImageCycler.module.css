@@ -7,6 +7,12 @@
   cursor: ew-resize; /* Indicates horizontal scrubbing */
 }
 
+@media (max-width: 768px) {
+  .container {
+    cursor: auto;
+  }
+}
+
 .imageWrapper {
   position: absolute;
   inset: 0;

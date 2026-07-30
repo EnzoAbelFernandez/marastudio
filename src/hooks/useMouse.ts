@@ -66,11 +66,22 @@ export function useMouse(options: UseMouseOptions = {}) {
       state.current.normalizedY = -(e.clientY / window.innerHeight) * 2 + 1;
     };
 
+    const handleTouchMove = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      if (!touch) return;
+      state.current.x = touch.clientX;
+      state.current.y = touch.clientY;
+      state.current.normalizedX = (touch.clientX / window.innerWidth) * 2 - 1;
+      state.current.normalizedY = -(touch.clientY / window.innerHeight) * 2 + 1;
+    };
+
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
     rafId.current = requestAnimationFrame(updateSmooth);
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('touchmove', handleTouchMove);
       cancelAnimationFrame(rafId.current);
     };
   }, [updateSmooth]);

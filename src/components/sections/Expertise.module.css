@@ -157,6 +157,10 @@
 }
 
 @media (max-width: 640px) {
+  .expertise {
+    padding: 4rem 0;
+  }
+
   .grid {
     grid-template-columns: 1fr;
     grid-template-areas:
@@ -169,5 +173,13 @@
 
   .featured {
     min-height: auto;
+  }
+
+  .card {
+    padding: 1.5rem;
+  }
+
+  .cardTitle {
+    font-size: 1.125rem;
   }
 }

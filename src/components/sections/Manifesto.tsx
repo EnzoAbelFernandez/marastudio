@@ -31,22 +31,23 @@ export function Manifesto() {
     if (!words.length) return;
 
     const ctx = gsap.context(() => {
-      // Set initial state: dim + blurred + slightly displaced
+      const isMobile = window.innerWidth < 768;
+
+      // Set initial state: dim + slightly displaced
+      // On mobile, skip blur (CSS filter is too heavy for mobile GPUs)
       words.forEach((word, i) => {
-        // Y-offset decreases as we go deeper into the text
-        // First words drift more, last words barely move
         const yOffset = Math.max(0, 8 - (i / words.length) * 8);
         gsap.set(word, {
           opacity: 0.08,
-          filter: 'blur(3px)',
+          ...(isMobile ? {} : { filter: 'blur(3px)' }),
           y: yOffset,
         });
       });
 
-      // Animate each word: opacity + blur-clear + settle
+      // Animate each word: opacity + settle (+ blur-clear on desktop)
       gsap.to(words, {
         opacity: 1,
-        filter: 'blur(0px)',
+        ...(isMobile ? {} : { filter: 'blur(0px)' }),
         y: 0,
         stagger: 0.05,
         ease: 'none',

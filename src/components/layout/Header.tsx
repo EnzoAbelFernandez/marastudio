@@ -11,10 +11,10 @@ if (typeof window !== 'undefined') {
 }
 
 const NAV_ITEMS = [
-  { label: 'Nosotros', href: '#nosotros' },
-  { label: 'Expertise', href: '#expertise' },
-  { label: 'Trabajo', href: '#trabajo' },
-  { label: 'Contacto', href: '#contacto' },
+  { label: 'Nosotros', href: '/#nosotros' },
+  { label: 'Expertise', href: '/#expertise' },
+  { label: 'Trabajo', href: '/#trabajo' },
+  { label: 'Contacto', href: '/#contacto' },
 ];
 
 /**
@@ -25,6 +25,7 @@ const NAV_ITEMS = [
 export function Header() {
   const headerRef = useRef<HTMLElement>(null);
   const [isVisible, setIsVisible] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
   const lastScrollY = useRef(0);
 
   // ── Show/hide on scroll direction ──
@@ -65,32 +66,60 @@ export function Header() {
   }, []);
 
   return (
-    <header
-      ref={headerRef}
-      className={`${styles.header} ${isVisible ? styles.visible : styles.hidden}`}
-    >
-      <div className={styles.inner}>
-        {/* Logo */}
-        <a href="#hero" className={styles.logo}>
-          MARA<span className={styles.logoAccent}>.</span>
-        </a>
+    <>
+      <header
+        ref={headerRef}
+        className={`${styles.header} ${isVisible ? styles.visible : styles.hidden}`}
+      >
+        <div className={styles.inner}>
+          {/* Logo */}
+          <a href="/#hero" className={styles.logo}>
+            MARA<span className={styles.logoAccent}>.</span>
+          </a>
 
-        {/* Navigation */}
-        <nav className={styles.nav}>
-          {NAV_ITEMS.map((item) => (
-            <a key={item.href} href={item.href} className={styles.navLink}>
-              {item.label}
-            </a>
-          ))}
-        </nav>
+          {/* Navigation */}
+          <nav className={styles.nav}>
+            {NAV_ITEMS.map((item) => (
+              <a key={item.href} href={item.href} className={styles.navLink}>
+                {item.label}
+              </a>
+            ))}
+          </nav>
 
-        {/* CTA */}
-        <div className={styles.headerCta}>
-          <MagneticButton href="#contacto" strength={0.2} size="sm">
-            Hablemos
-          </MagneticButton>
+          {/* CTA */}
+          <div className={styles.headerCta}>
+            <MagneticButton href="/#contacto" strength={0.2} size="sm">
+              Hablemos
+            </MagneticButton>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            className={`${styles.menuButton} ${menuOpen ? styles.menuOpen : ''}`}
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Menu"
+          >
+            <span />
+            <span />
+          </button>
         </div>
-      </div>
-    </header>
+      </header>
+
+      {/* Mobile Navigation Overlay */}
+      <nav
+        className={`${styles.mobileNav} ${menuOpen ? styles.mobileNavOpen : ''}`}
+      >
+        {NAV_ITEMS.map((item) => (
+          <a
+            key={item.href}
+            href={item.href}
+            className={styles.mobileNavLink}
+            onClick={() => setMenuOpen(false)}
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
+    </>
   );
 }

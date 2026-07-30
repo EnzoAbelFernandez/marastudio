@@ -1,0 +1,10 @@
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  /* pointer-events auto so mouse events reach the canvas interaction */
+  pointer-events: none;
+  display: block;
+}

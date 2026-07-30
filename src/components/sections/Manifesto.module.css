@@ -1,6 +1,6 @@
 .manifesto {
   position: relative;
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   padding: clamp(6rem, 12vw, 12rem) 0;
@@ -42,6 +42,11 @@
 }
 
 @media (max-width: 768px) {
+  .manifesto {
+    min-height: 60dvh; /* Reduce from 100dvh to eliminate huge empty spaces */
+    padding: 5rem 0;
+  }
+
   .text {
     font-size: clamp(1.25rem, 5vw, 2rem);
     line-height: 1.45;

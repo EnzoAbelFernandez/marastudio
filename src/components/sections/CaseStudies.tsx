@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useLayoutEffect, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { EASINGS, DURATIONS, BREAKPOINTS } from '@/lib/constants';
@@ -67,11 +67,13 @@ const PROJECTS: Project[] = [
 export function CaseStudies() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!sectionRef.current || !trackRef.current) return;
 
     const isDesktop = window.innerWidth >= BREAKPOINTS.md;
+    setIsMobile(!isDesktop);
 
     const ctx = gsap.context(() => {
       const track = trackRef.current!;
@@ -81,33 +83,49 @@ export function CaseStudies() {
       if (isDesktop) {
         // ── Desktop: horizontal scroll via pin ──
         const totalWidth = track.scrollWidth - window.innerWidth;
+        const deadZoneScroll = window.innerHeight * 0.1;
 
-        const horizontalScroll = gsap.to(track, {
-          x: -totalWidth,
-          ease: EASINGS.scrub,
+        // Master timeline for the horizontal track movement
+        const tl = gsap.timeline({
           scrollTrigger: {
             trigger: sectionRef.current,
             start: 'top top',
-            end: () => `+=${totalWidth}`,
+            end: () => `+=${totalWidth + deadZoneScroll}`,
             pin: true,
             scrub: 0.8,
             invalidateOnRefresh: true,
           },
         });
 
-        // Parallax on images
+        // 1. Pause at the beginning (dead zone)
+        tl.to(track, { x: 0, duration: deadZoneScroll, ease: 'none' });
+
+        // 2. Move the track horizontally
+        tl.to(track, { x: -totalWidth, ease: 'none', duration: totalWidth });
+
+        // 3. Parallax on images, driven by each card's entry into the viewport
         images.forEach((img) => {
-          gsap.to(img, {
-            x: -80,
-            ease: EASINGS.scrub,
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: 'top top',
-              end: () => `+=${totalWidth}`,
-              scrub: 0.5,
-            },
-          });
+          const card = img.closest(`.${styles.card}`);
+          if (!card) return;
+
+          gsap.fromTo(
+            img,
+            { x: -20 }, // Start shifted left
+            {
+              x: 20,    // End shifted right
+              ease: 'none',
+              scrollTrigger: {
+                trigger: card,
+                containerAnimation: tl,
+                start: 'left right', // When card enters screen from the right
+                end: 'right left',   // When card leaves screen from the left
+                scrub: true,
+              },
+            }
+          );
         });
+
+        const horizontalScroll = tl;
 
         // Content reveal per card — uses REVEAL curve (neutral, informational)
         cards.forEach((card) => {
@@ -166,7 +184,7 @@ export function CaseStudies() {
         </h2>
       </div>
 
-      <div ref={trackRef} className={styles.track}>
+      <div ref={trackRef} className={styles.track} data-lenis-prevent={isMobile ? "true" : undefined}>
         {PROJECTS.map((project) => {
           const CardContent = (
             <article
@@ -201,7 +219,14 @@ export function CaseStudies() {
           );
 
           return project.href ? (
-            <Link key={project.id} href={project.href} className={styles.cardLink}>
+            <Link 
+              key={project.id} 
+              href={project.href} 
+              className={styles.cardLink}
+              onClick={() => {
+                sessionStorage.setItem('mara_home_scroll', window.scrollY.toString());
+              }}
+            >
               {CardContent}
             </Link>
           ) : (
