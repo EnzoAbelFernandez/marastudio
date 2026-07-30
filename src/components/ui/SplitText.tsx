@@ -86,13 +86,26 @@ export const SplitText = forwardRef<SplitTextRef, SplitTextProps>(
     }, [children, mode]);
 
     // Use createElement to avoid JSX type inference issues with dynamic tags in React 19
+    const accessibleContent = createElement(
+      'span',
+      { 'aria-hidden': 'true', style: { display: 'contents' } },
+      content
+    );
+
+    const srOnlyContent = createElement(
+      'span',
+      { className: 'sr-only' },
+      children
+    );
+
     return createElement(
       tag,
       {
         ref: rootRef,
         className: `${styles.splitText} ${className}`,
       },
-      content
+      accessibleContent,
+      srOnlyContent
     );
   }
 );
