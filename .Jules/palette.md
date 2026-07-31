@@ -1,0 +1,3 @@
+## 2024-05-18 - [Accessibility: Text-Splitting Elements]
+**Learning:** Text-splitting components (like GSAP reveals that fragment words into individual characters) severely damage screen reader accessibility. Screen readers tend to announce broken up characters rather than full words.
+**Action:** When creating text-splitting animations, always wrap the fragmented output within an `aria-hidden="true"` element (often requiring `style={{ display: "contents" }}` to avoid breaking flex/grid layouts) and provide a visually hidden `.sr-only` sibling that contains the original full string to ensure correct screen reader pronunciation.
