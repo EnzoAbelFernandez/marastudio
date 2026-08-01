@@ -92,7 +92,8 @@ export const SplitText = forwardRef<SplitTextRef, SplitTextProps>(
         ref: rootRef,
         className: `${styles.splitText} ${className}`,
       },
-      content
+      <span key="sr" className="sr-only">{children}</span>,
+      <span key="content" aria-hidden="true" style={{ display: 'contents' }}>{content}</span>
     );
   }
 );

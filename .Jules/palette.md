@@ -1,0 +1,3 @@
+## 2024-11-20 - Accessible Text Splitting Animation Components
+**Learning:** Text-splitting animation components (like GSAP SplitText) fragment words and characters into separate `<span>` tags. This completely breaks screen reader pronunciation, causing the text to be read letter by letter or in disjointed chunks.
+**Action:** Always wrap the fragmented/animated text elements with `aria-hidden="true"` (and `style={{ display: 'contents' }}` to preserve flex/grid layouts) and pair it with a `.sr-only` sibling element containing the full, unfragmented text string. This ensures screen readers pronounce the full text smoothly while the visual animation remains intact for sighted users.
