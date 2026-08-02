@@ -85,6 +85,16 @@ export const SplitText = forwardRef<SplitTextRef, SplitTextProps>(
       });
     }, [children, mode]);
 
+    // Accessibility structure for screen readers
+    const a11yContent = (
+      <>
+        <span className="sr-only">{children}</span>
+        <span aria-hidden="true" style={{ display: 'contents' }}>
+          {content}
+        </span>
+      </>
+    );
+
     // Use createElement to avoid JSX type inference issues with dynamic tags in React 19
     return createElement(
       tag,
@@ -92,7 +102,7 @@ export const SplitText = forwardRef<SplitTextRef, SplitTextProps>(
         ref: rootRef,
         className: `${styles.splitText} ${className}`,
       },
-      content
+      a11yContent
     );
   }
 );
