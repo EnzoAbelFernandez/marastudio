@@ -1,0 +1,3 @@
+## 2024-05-24 - Screen Reader Pronunciation in Text-Splitting Animations
+**Learning:** Text-splitting animations (like GSAP) break content into individual nodes (`<span>` for each character or word). This causes screen readers to pronounce words as individual disconnected letters or pause unnaturally between words, breaking accessibility for users relying on screen readers.
+**Action:** Fragmented elements in text-splitting components must be wrapped with `aria-hidden="true"` (using `style={{ display: 'contents' }}` to preserve flex/grid layouts) and paired with a `.sr-only` sibling element containing the full, unfragmented text to ensure proper screen reader pronunciation.
