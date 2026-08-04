@@ -140,6 +140,13 @@ export function Expertise() {
               key={item.area}
               className={`${styles.card} ${item.featured ? styles.featured : ''}`}
               style={{ gridArea: item.area }}
+              onMouseMove={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                e.currentTarget.style.setProperty('--mouse-x', `${x}px`);
+                e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
+              }}
             >
               <div className={styles.cardContent}>
                 <h3 className={styles.cardTitle}>{item.title}</h3>
