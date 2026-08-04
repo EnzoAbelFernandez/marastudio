@@ -5,6 +5,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { EASINGS, DURATIONS } from '@/lib/constants';
 import { MagneticButton } from '@/components/ui/MagneticButton';
+import { useLanguage } from '@/lib/i18n/LanguageContext';
 import styles from './Footer.module.css';
 
 if (typeof window !== 'undefined') {
@@ -18,6 +19,7 @@ if (typeof window !== 'undefined') {
  * The "Iniciemos un proyecto" text reveals on scroll.
  */
 export function Footer() {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -83,9 +85,9 @@ export function Footer() {
         {/* Massive CTA */}
         <div className={styles.ctaSection}>
           <h2 className={styles.ctaHeading}>
-            ¿Tenés un proyecto
+            {t.footer.ctaHeadingLine1}
             <br />
-            en mente?
+            {t.footer.ctaHeadingLine2}
           </h2>
 
           <div className={styles.ctaButton}>
@@ -94,7 +96,7 @@ export function Footer() {
               strength={0.35}
               size="lg"
             >
-              <span className={styles.buttonText}>Iniciemos un proyecto</span>
+              <span className={styles.buttonText}>{t.footer.ctaButton}</span>
               <span className={styles.buttonArrow}>↗</span>
             </MagneticButton>
           </div>
@@ -103,19 +105,19 @@ export function Footer() {
         {/* Info bar */}
         <div className={styles.info}>
           <div className={styles.infoBlock}>
-            <span className={styles.infoLabel}>Email</span>
+            <span className={styles.infoLabel}>{t.footer.labelEmail}</span>
             <a href="mailto:hola@marastudio.dev" className={styles.infoValue}>
               hola@marastudio.dev
             </a>
           </div>
 
           <div className={styles.infoBlock}>
-            <span className={styles.infoLabel}>Ubicación</span>
-            <span className={styles.infoValue}>Argentina</span>
+            <span className={styles.infoLabel}>{t.footer.labelLocation}</span>
+            <span className={styles.infoValue}>{t.footer.valueLocation}</span>
           </div>
 
           <div className={styles.infoBlock}>
-            <span className={styles.infoLabel}>Redes</span>
+            <span className={styles.infoLabel}>{t.footer.labelSocials}</span>
             <div className={styles.socials}>
               <a href="#" className={styles.socialLink}>GitHub</a>
               <a href="#" className={styles.socialLink}>LinkedIn</a>
@@ -129,10 +131,11 @@ export function Footer() {
             © {new Date().getFullYear()} Mara Studio
           </span>
           <span className={styles.credit}>
-            Diseñado y desarrollado por Mara Studio
+            {t.footer.credit}
           </span>
         </div>
       </div>
     </footer>
   );
 }
+

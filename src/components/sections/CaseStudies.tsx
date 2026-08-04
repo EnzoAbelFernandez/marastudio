@@ -6,56 +6,12 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { EASINGS, DURATIONS, BREAKPOINTS } from '@/lib/constants';
 import Link from 'next/link';
 import { HoverImageCycler } from '@/components/ui/HoverImageCycler';
+import { useLanguage } from '@/lib/i18n/LanguageContext';
 import styles from './CaseStudies.module.css';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
-
-interface Project {
-  id: string;
-  title: string;
-  category: string;
-  description: string;
-  year: string;
-  gradient: string;
-  featured?: boolean;
-  href?: string;
-  images?: string[];
-}
-
-const PROJECTS: Project[] = [
-  {
-    id: '01',
-    title: 'HORA',
-    category: 'SaaS / Aplicación Web',
-    description:
-      'Sistema premium de gestión para playas de estacionamiento. Arquitectura Local-First, editor Canvas 2D.',
-    year: '2026',
-    gradient: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
-    featured: true,
-    href: '/work/hora',
-    images: ['/images/hora_dashboard.png', '/images/hora_map.png', '/images/hora_mobile.png'],
-  },
-  {
-    id: '02',
-    title: 'Sistema de Gestión Retail',
-    category: 'ERP / Punto de Venta',
-    description:
-      'Control de stock, ventas, facturación y reportes en tiempo real. Diseñado para la complejidad real del retail.',
-    year: '2024',
-    gradient: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%)',
-  },
-  {
-    id: '03',
-    title: 'Tercer Proyecto',
-    category: 'Aplicación Web',
-    description:
-      'Interfaz interactiva con lógica de negocio compleja. Backend escalable, frontend memorable.',
-    year: '2024',
-    gradient: 'linear-gradient(135deg, #0d0d0d 0%, #1f1f2e 50%, #0d0d1a 100%)',
-  },
-];
 
 /**
  * Case Studies Section — Horizontal scroll slider
@@ -65,6 +21,7 @@ const PROJECTS: Project[] = [
  * First project is `.featured` — larger card, accent glow on border.
  */
 export function CaseStudies() {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
@@ -173,19 +130,19 @@ export function CaseStudies() {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [t.caseStudies.projects]);
 
   return (
     <section ref={sectionRef} className={styles.caseStudies} id="trabajo">
       <div className={styles.header}>
-        <span className={styles.label}>Casos de estudio</span>
+        <span className={styles.label}>{t.caseStudies.label}</span>
         <h2 className={styles.heading}>
-          El trabajo<span className={styles.dot}>.</span>
+          {t.caseStudies.heading}<span className={styles.dot}>.</span>
         </h2>
       </div>
 
       <div ref={trackRef} className={styles.track} data-lenis-prevent={isMobile ? "true" : undefined}>
-        {PROJECTS.map((project) => {
+        {t.caseStudies.projects.map((project) => {
           const CardContent = (
             <article
               className={`${styles.card} ${project.featured ? styles.featured : ''} ${project.href ? styles.clickableCard : ''}`}
@@ -237,9 +194,10 @@ export function CaseStudies() {
         })}
 
         <div className={styles.endCard}>
-          <p className={styles.endText}>Más proyectos próximamente</p>
+          <p className={styles.endText}>{t.caseStudies.endText}</p>
         </div>
       </div>
     </section>
   );
 }
+

@@ -4,66 +4,12 @@ import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { EASINGS, DURATIONS } from '@/lib/constants';
+import { useLanguage } from '@/lib/i18n/LanguageContext';
 import styles from './Expertise.module.css';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
-
-interface ExpertiseItem {
-  title: string;
-  description: string;
-  tags: string[];
-  area: string;
-  featured?: boolean;
-  /** Row index for stagger grouping — cards on the same row enter together */
-  row: number;
-}
-
-const EXPERTISE_DATA: ExpertiseItem[] = [
-  {
-    title: 'Arquitectura Backend',
-    description:
-      'Sistemas robustos y escalables. APIs REST y GraphQL, microservicios, colas de mensajes, y bases de datos optimizadas para cargas de trabajo reales.',
-    tags: ['Node.js', 'Express', 'MongoDB', 'PostgreSQL', 'Redis'],
-    area: 'backend',
-    featured: true,
-    row: 0,
-  },
-  {
-    title: 'Frontend Interactivo',
-    description:
-      'Interfaces que trascienden lo convencional. Animaciones fluidas, WebGL, canvas, y experiencias que los usuarios recuerdan.',
-    tags: ['React', 'Next.js', 'Three.js', 'GSAP', 'WebGL'],
-    area: 'frontend',
-    featured: true,
-    row: 0,
-  },
-  {
-    title: 'Sistemas de Gestión',
-    description:
-      'ERPs, control de stock, facturación, punto de venta. Software que maneja la complejidad real del negocio.',
-    tags: ['ERP', 'POS', 'Inventario', 'Facturación'],
-    area: 'erp',
-    row: 1,
-  },
-  {
-    title: 'Infraestructura',
-    description:
-      'Deploy automatizado, CI/CD, monitoreo. Infraestructura que no deja de funcionar.',
-    tags: ['Docker', 'AWS', 'CI/CD', 'Linux'],
-    area: 'infra',
-    row: 1,
-  },
-  {
-    title: 'Diseño de Producto',
-    description:
-      'Desde la investigación de usuario hasta el pixel final. Diseño que resuelve, no que decora.',
-    tags: ['UI/UX', 'Figma', 'Design Systems', 'Prototipado'],
-    area: 'design',
-    row: 1,
-  },
-];
 
 /**
  * Expertise / Stack Técnico Section
@@ -74,6 +20,7 @@ const EXPERTISE_DATA: ExpertiseItem[] = [
  * not showcase.
  */
 export function Expertise() {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -124,18 +71,18 @@ export function Expertise() {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [t.expertise.items]);
 
   return (
     <section ref={sectionRef} className={styles.expertise} id="expertise">
       <div className={styles.container}>
-        <span className={styles.label}>Lo que hacemos</span>
+        <span className={styles.label}>{t.expertise.label}</span>
         <h2 className={styles.heading}>
-          Expertise<span className={styles.dot}>.</span>
+          {t.expertise.heading}<span className={styles.dot}>.</span>
         </h2>
 
         <div className={styles.grid}>
-          {EXPERTISE_DATA.map((item) => (
+          {t.expertise.items.map((item) => (
             <article
               key={item.area}
               className={`${styles.card} ${item.featured ? styles.featured : ''}`}
@@ -160,3 +107,4 @@ export function Expertise() {
     </section>
   );
 }
+

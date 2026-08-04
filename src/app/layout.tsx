@@ -4,6 +4,7 @@ import { SmoothScroll } from '@/components/layout/SmoothScroll';
 import { Header } from '@/components/layout/Header';
 import { GrainOverlay } from '@/components/ui/GrainOverlay';
 import { Preloader } from '@/components/ui/Preloader';
+import { LanguageProvider } from '@/lib/i18n/LanguageContext';
 import './globals.css';
 
 // ── Typography ──
@@ -30,7 +31,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: 'Mara Studio — Diseñando el comportamiento. Programando la estética.',
   description:
-    'Estudio de desarrollo de software especializado en arquitecturas robustas y experiencias digitales de alto nivel. Ingeniería sólida, diseño memorable.',
+    'Estudio de desarrollo de software especializado en arquitecturas robustas y experiences digitales de alto nivel. Ingeniería sólida, diseño memorable.',
   keywords: [
     'desarrollo de software',
     'software studio',
@@ -55,12 +56,14 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${inter.variable} ${spaceGrotesk.variable}`}>
       <body>
-        <Preloader />
-        <SmoothScroll>
-          <Header />
-          {children}
-        </SmoothScroll>
-        <GrainOverlay />
+        <LanguageProvider>
+          <Preloader />
+          <SmoothScroll>
+            <Header />
+            {children}
+          </SmoothScroll>
+          <GrainOverlay />
+        </LanguageProvider>
       </body>
     </html>
   );

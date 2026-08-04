@@ -6,6 +6,7 @@ import gsap from 'gsap';
 import { EASINGS } from '@/lib/constants';
 import { SplitText, type SplitTextRef } from '@/components/ui/SplitText';
 import { MagneticButton } from '@/components/ui/MagneticButton';
+import { useLanguage } from '@/lib/i18n/LanguageContext';
 import styles from './Hero.module.css';
 
 const Scene = dynamic(
@@ -20,6 +21,7 @@ function getInnerElements(chars: HTMLSpanElement[]): HTMLElement[] {
 }
 
 export function Hero() {
+  const { t } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
   const titleBlockRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<SplitTextRef>(null);
@@ -128,20 +130,21 @@ export function Hero() {
         </div>
 
         <p ref={taglineRef} className={styles.tagline}>
-          Software a medida, de la idea al detalle.
+          {t.hero.tagline}
         </p>
 
         <div ref={ctaRef} className={styles.cta}>
           <MagneticButton href="#contacto" strength={0.25}>
-            Iniciemos un proyecto
+            {t.hero.cta}
           </MagneticButton>
         </div>
       </div>
 
       <div ref={scrollRef} className={styles.scrollIndicator}>
         <div className={styles.scrollLine} />
-        <span className={styles.scrollLabel}>Scroll</span>
+        <span className={styles.scrollLabel}>{t.hero.scroll}</span>
       </div>
     </section>
   );
 }
+

@@ -4,18 +4,12 @@ import { useRef, useEffect, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MagneticButton } from '@/components/ui/MagneticButton';
+import { useLanguage } from '@/lib/i18n/LanguageContext';
 import styles from './Header.module.css';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
-
-const NAV_ITEMS = [
-  { label: 'Nosotros', href: '/#nosotros' },
-  { label: 'Expertise', href: '/#expertise' },
-  { label: 'Trabajo', href: '/#trabajo' },
-  { label: 'Contacto', href: '/#contacto' },
-];
 
 /**
  * Sticky header that hides on scroll-down and shows on scroll-up.
@@ -23,10 +17,18 @@ const NAV_ITEMS = [
  * Entrance animation syncs with the Hero timeline.
  */
 export function Header() {
+  const { locale, setLocale, t } = useLanguage();
   const headerRef = useRef<HTMLElement>(null);
   const [isVisible, setIsVisible] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const lastScrollY = useRef(0);
+
+  const navItems = [
+    { label: t.header.nav.about, href: '/#nosotros' },
+    { label: t.header.nav.expertise, href: '/#expertise' },
+    { label: t.header.nav.work, href: '/#trabajo' },
+    { label: t.header.nav.contact, href: '/#contacto' },
+  ];
 
   // ── Show/hide on scroll direction ──
   useEffect(() => {
@@ -79,29 +81,50 @@ export function Header() {
 
           {/* Navigation */}
           <nav className={styles.nav}>
-            {NAV_ITEMS.map((item) => (
+            {navItems.map((item) => (
               <a key={item.href} href={item.href} className={styles.navLink}>
                 {item.label}
               </a>
             ))}
           </nav>
 
-          {/* CTA */}
-          <div className={styles.headerCta}>
-            <MagneticButton href="/#contacto" strength={0.2} size="sm">
-              Hablemos
-            </MagneticButton>
-          </div>
+          {/* Controls (Lang Switcher + CTA + Menu Button) */}
+          <div className={styles.rightControls}>
+            <div className={styles.langSwitch} role="group" aria-label="Language selection">
+              <button
+                type="button"
+                onClick={() => setLocale('es')}
+                className={`${styles.langBtn} ${locale === 'es' ? styles.activeLang : ''}`}
+                aria-pressed={locale === 'es'}
+              >
+                ES
+              </button>
+              <span className={styles.langSeparator}>·</span>
+              <button
+                type="button"
+                onClick={() => setLocale('en')}
+                className={`${styles.langBtn} ${locale === 'en' ? styles.activeLang : ''}`}
+                aria-pressed={locale === 'en'}
+              >
+                EN
+              </button>
+            </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            className={`${styles.menuButton} ${menuOpen ? styles.menuOpen : ''}`}
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Menu"
-          >
-            <span />
-            <span />
-          </button>
+            <div className={styles.headerCta}>
+              <MagneticButton href="/#contacto" strength={0.2} size="sm">
+                {t.header.cta}
+              </MagneticButton>
+            </div>
+
+            <button
+              className={`${styles.menuButton} ${menuOpen ? styles.menuOpen : ''}`}
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Menu"
+            >
+              <span />
+              <span />
+            </button>
+          </div>
         </div>
       </header>
 
@@ -109,7 +132,7 @@ export function Header() {
       <nav
         className={`${styles.mobileNav} ${menuOpen ? styles.mobileNavOpen : ''}`}
       >
-        {NAV_ITEMS.map((item) => (
+        {navItems.map((item) => (
           <a
             key={item.href}
             href={item.href}
@@ -119,7 +142,26 @@ export function Header() {
             {item.label}
           </a>
         ))}
+
+        <div className={styles.mobileLangSwitch}>
+          <button
+            type="button"
+            onClick={() => setLocale('es')}
+            className={`${styles.langBtn} ${locale === 'es' ? styles.activeLang : ''}`}
+          >
+            ES
+          </button>
+          <span className={styles.langSeparator}>·</span>
+          <button
+            type="button"
+            onClick={() => setLocale('en')}
+            className={`${styles.langBtn} ${locale === 'en' ? styles.activeLang : ''}`}
+          >
+            EN
+          </button>
+        </div>
       </nav>
     </>
   );
 }
+

@@ -5,6 +5,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { EASINGS, DURATIONS } from '@/lib/constants';
 import { MagneticButton } from '@/components/ui/MagneticButton';
+import { useLanguage } from '@/lib/i18n/LanguageContext';
 import styles from './page.module.css';
 import Link from 'next/link';
 
@@ -13,6 +14,7 @@ if (typeof window !== 'undefined') {
 }
 
 export default function HoraCaseStudy() {
+  const { t } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
   
   // Ensure we start at the top for this specific page
@@ -60,7 +62,7 @@ export default function HoraCaseStudy() {
     }, containerRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [t]);
 
   // Simple stagger constant for internal use
   const STAGGER = 0.08;
@@ -72,22 +74,20 @@ export default function HoraCaseStudy() {
         <div className={styles.headerContent}>
           <div className={styles.meta}>
             <Link href="/" className={styles.backLink}>
-              <span className={styles.backArrow}>←</span> Volver
+              <span className={styles.backArrow}>←</span> {t.hora.back}
             </Link>
-            <span className={styles.category}>SaaS / Aplicación Web B2B</span>
+            <span className={styles.category}>{t.hora.category}</span>
           </div>
           
           <h1 className={styles.title}>HORA</h1>
           <p className={styles.subtitle}>
-            Sistema premium de gestión integral para playas de estacionamiento.
-            Reemplazando sistemas obsoletos con una interfaz moderna, fluida y altamente visual.
+            {t.hora.subtitle}
           </p>
           
           <div className={styles.tags}>
-            <span>React 19</span>
-            <span>Vite</span>
-            <span>Canvas 2D</span>
-            <span>Local-First</span>
+            {t.hora.tags.map((tag) => (
+              <span key={tag}>{tag}</span>
+            ))}
           </div>
         </div>
       </header>
@@ -115,7 +115,7 @@ export default function HoraCaseStudy() {
         
         <div className={styles.demoCta}>
           <MagneticButton href="https://hora.marastudio.com.ar" size="lg">
-            Visitar Demo en Vivo ↗
+            {t.hora.demoCta}
           </MagneticButton>
         </div>
       </section>
@@ -125,36 +125,30 @@ export default function HoraCaseStudy() {
         <div className={styles.grid}>
           
           <article className={styles.featureCard}>
-            <h3 className={styles.featureTitle}>Dashboard Táctico</h3>
+            <h3 className={styles.featureTitle}>{t.hora.cards.dashboard.title}</h3>
             <p className={styles.featureDesc}>
-              Control de ingresos y egresos en tiempo real. Validación de patentes, cobro dinámico 
-              (fraccionado u horas) y visualización de vehículos activos en tarjetas responsivas.
+              {t.hora.cards.dashboard.desc}
             </p>
           </article>
 
           <article className={styles.featureCard}>
-            <h3 className={styles.featureTitle}>Diseñador Visual (Canvas 2D)</h3>
+            <h3 className={styles.featureTitle}>{t.hora.cards.canvas.title}</h3>
             <p className={styles.featureDesc}>
-              Un lienzo interactivo drag-and-drop renderizado con <code>react-konva</code> donde el dueño 
-              puede dibujar su playa, añadir cocheras, calles y paredes. Las plazas dibujadas se sincronizan 
-              con la base de datos de cobro al instante.
+              {t.hora.cards.canvas.part1}<code>{t.hora.cards.canvas.code}</code>{t.hora.cards.canvas.part2}
             </p>
           </article>
 
           <article className={styles.featureCard}>
-            <h3 className={styles.featureTitle}>Arquitectura Local-First</h3>
+            <h3 className={styles.featureTitle}>{t.hora.cards.localFirst.title}</h3>
             <p className={styles.featureDesc}>
-              Construida con React 19 y Javascript puro. La persistencia se maneja localmente abstrayendo 
-              <code>localStorage</code> vía <code>dbService.js</code>, logrando tiempos de respuesta de 0ms 
-              y resiliencia total frente a cortes de conexión.
+              {t.hora.cards.localFirst.part1}<code>{t.hora.cards.localFirst.code1}</code>{t.hora.cards.localFirst.part2}<code>{t.hora.cards.localFirst.code2}</code>{t.hora.cards.localFirst.part3}
             </p>
           </article>
 
           <article className={styles.featureCard}>
-            <h3 className={styles.featureTitle}>Configuración Dinámica</h3>
+            <h3 className={styles.featureTitle}>{t.hora.cards.config.title}</h3>
             <p className={styles.featureDesc}>
-              Motor de reglas comerciales complejas (horas pico, tolerancia en minutos, tarifas por 
-              categoría de vehículo) aplicables en tiempo real, junto con gestión de abonados y alertas visuales.
+              {t.hora.cards.config.desc}
             </p>
           </article>
           
@@ -164,3 +158,4 @@ export default function HoraCaseStudy() {
     </main>
   );
 }
+

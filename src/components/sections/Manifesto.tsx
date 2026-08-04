@@ -3,14 +3,12 @@
 import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLanguage } from '@/lib/i18n/LanguageContext';
 import styles from './Manifesto.module.css';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
-
-const MANIFESTO_TEXT =
-  'No construimos software genérico. Diseñamos sistemas que resuelven problemas reales con arquitecturas sólidas, código que escala y experiencias que las personas recuerdan.';
 
 /**
  * Manifesto / About Section
@@ -21,6 +19,7 @@ const MANIFESTO_TEXT =
  * Key structural words get slightly longer timing.
  */
 export function Manifesto() {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLParagraphElement>(null);
 
@@ -61,14 +60,14 @@ export function Manifesto() {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [t.manifesto.text]);
 
-  const words = MANIFESTO_TEXT.split(' ');
+  const words = t.manifesto.text.split(' ');
 
   return (
     <section ref={sectionRef} className={styles.manifesto} id="nosotros">
       <div className={styles.container}>
-        <span className={styles.label}>Nuestro enfoque</span>
+        <span className={styles.label}>{t.manifesto.label}</span>
 
         <p ref={textRef} className={styles.text}>
           {words.map((word, i) => (
@@ -81,3 +80,4 @@ export function Manifesto() {
     </section>
   );
 }
+
