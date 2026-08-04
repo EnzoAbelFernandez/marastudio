@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter, Space_Grotesk } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/next';
 import { SmoothScroll } from '@/components/layout/SmoothScroll';
 import { Header } from '@/components/layout/Header';
 import { GrainOverlay } from '@/components/ui/GrainOverlay';
@@ -61,6 +62,7 @@ export default function RootLayout({
           {children}
         </SmoothScroll>
         <GrainOverlay />
+        <Analytics />
       </body>
     </html>
   );
