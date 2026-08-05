@@ -26,7 +26,11 @@
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: var(--color-glow);
+  background: radial-gradient(
+    100px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    var(--color-glow-strong),
+    transparent 100%
+  );
   opacity: 0;
   transition: opacity var(--duration-base) var(--ease-micro);
 }
