@@ -93,7 +93,10 @@ export function MagneticButton({
 
   const inner = (
     <span ref={innerRef} className={styles.inner}>
-      {children}
+      <span className={styles.textWrapper}>
+        <span className={styles.text}>{children}</span>
+        <span className={styles.textHover} aria-hidden="true">{children}</span>
+      </span>
     </span>
   );
 

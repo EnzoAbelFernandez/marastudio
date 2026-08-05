@@ -60,6 +60,33 @@
   pointer-events: none;
 }
 
+.textWrapper {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.text,
+.textHover {
+  display: inline-block;
+  transition: transform var(--duration-base) var(--ease-impact);
+}
+
+.textHover {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  color: var(--color-accent);
+}
+
+.magnetic:hover .text {
+  transform: translateY(-100%);
+}
+
+.magnetic:hover .textHover {
+  transform: translateY(-100%);
+}
+
 @media (max-width: 768px) {
   .magnetic {
     padding: 1rem 2rem;
