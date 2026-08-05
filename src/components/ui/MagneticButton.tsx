@@ -50,10 +50,6 @@ export function MagneticButton({
       const deltaX = e.clientX - (bounds.left + bounds.width / 2);
       const deltaY = e.clientY - (bounds.top + bounds.height / 2);
 
-      // Update CSS variables for dynamic hover glow
-      buttonRef.current.style.setProperty('--mouse-x', `${e.clientX - bounds.left}px`);
-      buttonRef.current.style.setProperty('--mouse-y', `${e.clientY - bounds.top}px`);
-
       gsap.to(innerRef.current, {
         x: deltaX * strength,
         y: deltaY * strength,
@@ -97,7 +93,10 @@ export function MagneticButton({
 
   const inner = (
     <span ref={innerRef} className={styles.inner}>
-      {children}
+      <span className={styles.textWrapper}>
+        <span className={styles.text}>{children}</span>
+        <span className={styles.textHover} aria-hidden="true">{children}</span>
+      </span>
     </span>
   );
 

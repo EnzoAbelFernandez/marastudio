@@ -26,11 +26,7 @@
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: radial-gradient(
-    100px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    var(--color-glow-strong),
-    transparent 100%
-  );
+  background: var(--color-glow);
   opacity: 0;
   transition: opacity var(--duration-base) var(--ease-micro);
 }
@@ -62,6 +58,33 @@
   gap: 0.75rem;
   will-change: transform;
   pointer-events: none;
+}
+
+.textWrapper {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.text,
+.textHover {
+  display: inline-block;
+  transition: transform var(--duration-base) var(--ease-impact);
+}
+
+.textHover {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  color: var(--color-accent);
+}
+
+.magnetic:hover .text {
+  transform: translateY(-100%);
+}
+
+.magnetic:hover .textHover {
+  transform: translateY(-100%);
 }
 
 @media (max-width: 768px) {
