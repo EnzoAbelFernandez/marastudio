@@ -25,6 +25,7 @@ export function CaseStudies() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [activeCard, setActiveCard] = useState(0);
 
   useLayoutEffect(() => {
     if (!sectionRef.current || !trackRef.current) return;
@@ -132,6 +133,26 @@ export function CaseStudies() {
     return () => ctx.revert();
   }, [t.caseStudies.projects]);
 
+  // ── Mobile: track active card via scroll position ──
+  useEffect(() => {
+    if (!isMobile || !trackRef.current) return;
+
+    const track = trackRef.current;
+    const handleScroll = () => {
+      const cards = track.querySelectorAll<HTMLElement>('[data-card-index]');
+      let closest = 0;
+      let minDist = Infinity;
+      cards.forEach((card, i) => {
+        const dist = Math.abs(card.getBoundingClientRect().left - track.getBoundingClientRect().left);
+        if (dist < minDist) { minDist = dist; closest = i; }
+      });
+      setActiveCard(closest);
+    };
+
+    track.addEventListener('scroll', handleScroll, { passive: true });
+    return () => track.removeEventListener('scroll', handleScroll);
+  }, [isMobile]);
+
   return (
     <section ref={sectionRef} className={styles.caseStudies} id="trabajo">
       <div className={styles.header}>
@@ -145,6 +166,7 @@ export function CaseStudies() {
         {t.caseStudies.projects.map((project) => {
           const CardContent = (
             <article
+              data-card-index={t.caseStudies.projects.indexOf(project)}
               className={`${styles.card} ${project.featured ? styles.featured : ''} ${project.href ? styles.clickableCard : ''}`}
             >
               <div className={styles.imageWrapper}>
@@ -197,6 +219,31 @@ export function CaseStudies() {
           <p className={styles.endText}>{t.caseStudies.endText}</p>
         </div>
       </div>
+
+      {/* ── Mobile: Swipe Hint + Pagination Dots ── */}
+      {isMobile && (
+        <div>
+          <div className={styles.swipeHint}>
+            <span className={styles.swipeArrow}>›</span>
+            <span>deslizá para ver más</span>
+          </div>
+          <div className={styles.swipeDots}>
+            {t.caseStudies.projects.map((_, i) => (
+              <button
+                key={i}
+                className={`${styles.swipeDot} ${i === activeCard ? styles.swipeDotActive : ''}`}
+                onClick={() => {
+                  const cards = trackRef.current?.querySelectorAll<HTMLElement>('[data-card-index]');
+                  if (cards && cards[i]) {
+                    cards[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+                  }
+                }}
+                aria-label={`Proyecto ${i + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+      )}
     </section>
   );
 }
