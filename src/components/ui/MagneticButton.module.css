@@ -17,7 +17,8 @@
   cursor: pointer;
   transition:
     border-color var(--duration-base) var(--ease-micro),
-    background-color var(--duration-base) var(--ease-micro);
+    background-color var(--duration-base) var(--ease-micro),
+    transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
 }
 
@@ -26,9 +27,14 @@
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: var(--color-glow);
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(184, 149, 106, 0.2) 0%,
+    transparent 60%
+  );
   opacity: 0;
   transition: opacity var(--duration-base) var(--ease-micro);
+  pointer-events: none;
 }
 
 .magnetic:hover::before {
@@ -37,6 +43,10 @@
 
 .magnetic:hover {
   border-color: var(--color-accent-dim);
+}
+
+.magnetic:active {
+  transform: scale(0.97);
 }
 
 /* ── Size variant: small (Header CTA) ── */

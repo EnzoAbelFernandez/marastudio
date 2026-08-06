@@ -50,6 +50,12 @@ export function MagneticButton({
       const deltaX = e.clientX - (bounds.left + bounds.width / 2);
       const deltaY = e.clientY - (bounds.top + bounds.height / 2);
 
+      // Set custom properties for hover glow tracking
+      const mouseX = e.clientX - bounds.left;
+      const mouseY = e.clientY - bounds.top;
+      (e.currentTarget as HTMLElement).style.setProperty('--mouse-x', `${mouseX}px`);
+      (e.currentTarget as HTMLElement).style.setProperty('--mouse-y', `${mouseY}px`);
+
       gsap.to(innerRef.current, {
         x: deltaX * strength,
         y: deltaY * strength,
