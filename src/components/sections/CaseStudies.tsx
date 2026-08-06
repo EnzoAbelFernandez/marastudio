@@ -167,12 +167,12 @@ export function CaseStudies() {
           const CardContent = (
             <article
               data-card-index={t.caseStudies.projects.indexOf(project)}
-              className={`${styles.card} ${project.featured ? styles.featured : ''} ${project.href ? styles.clickableCard : ''} ${project.scrollImage ? styles.lightCard : ''}`}
+              className={`${styles.card} ${project.featured ? styles.featured : ''} ${project.href ? styles.clickableCard : ''}`}
             >
               <div className={styles.imageWrapper}>
                 {project.scrollImage && project.images && project.images[0] ? (
-                  /* Auto-scrolling tall screenshot for mobile app captures */
-                  <div className={styles.imageScrollWrapper}>
+                  /* Auto-scrolling tall screenshot for mobile app captures with framing and padding */
+                  <div className={styles.imageScrollWrapper} style={{ background: project.gradient }}>
                     <img
                       src={project.images[0]}
                       alt={project.title}

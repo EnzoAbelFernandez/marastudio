@@ -100,21 +100,21 @@
   border-radius: inherit;
   display: flex;
   justify-content: center;
-  background: linear-gradient(135deg, #fdf6ec 0%, #f5e6ca 100%);
+  align-items: flex-start;
+  padding: clamp(1.5rem, 3.5vw, 2.5rem) clamp(2.5rem, 5vw, 4.5rem) 0;
 }
 
 .imageScrollImg {
-  width: auto;
+  width: 100%;
+  max-width: 380px;
   height: auto;
-  max-width: 65%;
   display: block;
-  /* Animate from top to bottom and back */
-  animation: scrollShot 10s ease-in-out infinite;
-  animation-delay: 1s;
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.1);
+  /* Animate smoothly with comfort pauses at limits */
+  animation: scrollShot 12s ease-in-out infinite;
   transform-origin: top center;
   will-change: transform;
-  border-radius: 12px;
-  filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.12));
 }
 
 /* Pauses on card hover so user can inspect */
@@ -123,16 +123,9 @@
 }
 
 @keyframes scrollShot {
-  0%   { transform: translateY(0%); }
-  40%  { transform: translateY(calc(-100% + 100% * 0.55)); }
-  60%  { transform: translateY(calc(-100% + 100% * 0.55)); }
-  100% { transform: translateY(0%); }
-}
-
-/* ── Light image wrapper for warm-toned projects (PetCare, etc.) ── */
-/* Only the image area gets the warm background — text stays dark-themed */
-.lightCard .imageWrapper {
-  border-color: rgba(184, 149, 106, 0.15);
+  0%, 10%   { transform: translateY(0%); }
+  45%, 55%  { transform: translateY(-58%); }
+  90%, 100% { transform: translateY(0%); }
 }
 
 
