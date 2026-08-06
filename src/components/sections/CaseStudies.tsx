@@ -167,22 +167,34 @@ export function CaseStudies() {
           const CardContent = (
             <article
               data-card-index={t.caseStudies.projects.indexOf(project)}
-              className={`${styles.card} ${project.featured ? styles.featured : ''} ${project.href ? styles.clickableCard : ''}`}
+              className={`${styles.card} ${project.featured ? styles.featured : ''} ${project.href ? styles.clickableCard : ''} ${project.scrollImage ? styles.lightCard : ''}`}
             >
               <div className={styles.imageWrapper}>
-                <div className={styles.imageInner}>
-                  {project.images && project.images.length > 0 ? (
-                    <HoverImageCycler
-                      images={project.images}
+                {project.scrollImage && project.images && project.images[0] ? (
+                  /* Auto-scrolling tall screenshot for mobile app captures */
+                  <div className={styles.imageScrollWrapper}>
+                    <img
+                      src={project.images[0]}
                       alt={project.title}
-                      fallbackGradient={project.gradient}
+                      className={styles.imageScrollImg}
+                      draggable={false}
                     />
-                  ) : (
-                    <div style={{ background: project.gradient, width: '100%', height: '100%' }}>
-                      <span className={styles.imagePlaceholder}>{project.title}</span>
-                    </div>
-                  )}
-                </div>
+                  </div>
+                ) : (
+                  <div className={styles.imageInner}>
+                    {project.images && project.images.length > 0 ? (
+                      <HoverImageCycler
+                        images={project.images}
+                        alt={project.title}
+                        fallbackGradient={project.gradient}
+                      />
+                    ) : (
+                      <div style={{ background: project.gradient, width: '100%', height: '100%' }}>
+                        <span className={styles.imagePlaceholder}>{project.title}</span>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
 
               <div className={styles.cardContent}>
@@ -196,6 +208,7 @@ export function CaseStudies() {
               </div>
             </article>
           );
+
 
           return project.href ? (
             <Link 

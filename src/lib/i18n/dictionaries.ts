@@ -19,6 +19,7 @@ export interface ProjectItem {
   featured?: boolean;
   href?: string;
   images?: string[];
+  scrollImage?: boolean; // Enables auto-scroll animation for tall screenshots (e.g. mobile full-page captures)
 }
 
 export interface Dictionary {
@@ -183,21 +184,23 @@ export const dictionaries: Record<Locale, Dictionary> = {
         },
         {
           id: '02',
+          title: 'PetCare',
+          category: 'Marketplace / App Mobile',
+          description:
+            'Plataforma para conectar dueños de mascotas con proveedores de servicio: bañadores, peluqueros y paseadores. Filtros por cercanía, precio y disponibilidad. Chat integrado y sistema de reservas con agenda de turnos.',
+          year: '2025',
+          gradient: 'linear-gradient(135deg, #fdf6ec 0%, #f5e6ca 100%)',
+          images: ['/images/petcare_mobile.png'],
+          scrollImage: true,
+        },
+        {
+          id: '03',
           title: 'Sistema de Gestión Retail',
           category: 'ERP / Punto de Venta',
           description:
             'Control de stock, ventas, facturación y reportes en tiempo real. Diseñado para la complejidad real del retail.',
           year: '2024',
           gradient: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%)',
-        },
-        {
-          id: '03',
-          title: 'Tercer Proyecto',
-          category: 'Aplicación Web',
-          description:
-            'Interfaz interactiva con lógica de negocio compleja. Backend escalable, frontend memorable.',
-          year: '2024',
-          gradient: 'linear-gradient(135deg, #0d0d0d 0%, #1f1f2e 50%, #0d0d1a 100%)',
         },
       ],
     },
@@ -333,21 +336,23 @@ export const dictionaries: Record<Locale, Dictionary> = {
         },
         {
           id: '02',
+          title: 'PetCare',
+          category: 'Marketplace / Mobile App',
+          description:
+            'Platform connecting pet owners with service providers: groomers, walkers, and caretakers. Proximity, price, and availability filters. Integrated real-time chat and appointment scheduling system.',
+          year: '2025',
+          gradient: 'linear-gradient(135deg, #fdf6ec 0%, #f5e6ca 100%)',
+          images: ['/images/petcare_mobile.png'],
+          scrollImage: true,
+        },
+        {
+          id: '03',
           title: 'Retail Management ERP',
           category: 'ERP / Point of Sale',
           description:
             'Real-time stock control, omnichannel sales, automated billing, and actionable analytics. Tailored for the intense pace of contemporary retail.',
           year: '2024',
           gradient: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%)',
-        },
-        {
-          id: '03',
-          title: 'Enterprise Web Application',
-          category: 'Web Application',
-          description:
-            'An expressive interface driven by deeply complex business rules. Scalable backend architecture matched with a memorable frontend experience.',
-          year: '2024',
-          gradient: 'linear-gradient(135deg, #0d0d0d 0%, #1f1f2e 50%, #0d0d1a 100%)',
         },
       ],
     },

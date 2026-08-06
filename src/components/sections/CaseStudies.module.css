@@ -92,6 +92,69 @@
   transition: transform var(--duration-slow) var(--ease-micro);
 }
 
+/* ── Scrolling Screenshot Container (for tall mobile captures) ── */
+.imageScrollWrapper {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.imageScrollImg {
+  width: 100%;
+  height: auto;
+  display: block;
+  /* Animate from top to bottom and back on hover/always */
+  animation: scrollShot 8s ease-in-out infinite;
+  transform-origin: top center;
+  will-change: transform;
+}
+
+/* Pauses on card hover so user can inspect */
+.card:hover .imageScrollImg {
+  animation-play-state: paused;
+}
+
+@keyframes scrollShot {
+  0%   { transform: translateY(0%); }
+  45%  { transform: translateY(calc(-100% + 100% * 0.6)); } /* scroll down to ~60% of height */
+  55%  { transform: translateY(calc(-100% + 100% * 0.6)); } /* brief hold at bottom */
+  100% { transform: translateY(0%); }
+}
+
+/* ── Light-theme modifier for PetCare-style cards ── */
+.lightCard {
+  background: #fdf6ec;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.lightCard .imageWrapper {
+  border-color: rgba(0, 0, 0, 0.06);
+}
+
+.lightCard .cardTitle {
+  color: #1a1a1a;
+}
+
+.lightCard .cardDescription {
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.lightCard .cardId {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.lightCard .cardCategory {
+  background: rgba(0, 0, 0, 0.06);
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.lightCard .cardYear {
+  color: rgba(0, 0, 0, 0.25);
+}
+
+
 .cardLink {
   text-decoration: none;
   color: inherit;
