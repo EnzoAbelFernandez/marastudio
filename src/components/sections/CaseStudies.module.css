@@ -98,16 +98,23 @@
   inset: 0;
   overflow: hidden;
   border-radius: inherit;
+  display: flex;
+  justify-content: center;
+  background: linear-gradient(135deg, #fdf6ec 0%, #f5e6ca 100%);
 }
 
 .imageScrollImg {
-  width: 100%;
+  width: auto;
   height: auto;
+  max-width: 65%;
   display: block;
-  /* Animate from top to bottom and back on hover/always */
-  animation: scrollShot 8s ease-in-out infinite;
+  /* Animate from top to bottom and back */
+  animation: scrollShot 10s ease-in-out infinite;
+  animation-delay: 1s;
   transform-origin: top center;
   will-change: transform;
+  border-radius: 12px;
+  filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.12));
 }
 
 /* Pauses on card hover so user can inspect */
@@ -117,41 +124,15 @@
 
 @keyframes scrollShot {
   0%   { transform: translateY(0%); }
-  45%  { transform: translateY(calc(-100% + 100% * 0.6)); } /* scroll down to ~60% of height */
-  55%  { transform: translateY(calc(-100% + 100% * 0.6)); } /* brief hold at bottom */
+  40%  { transform: translateY(calc(-100% + 100% * 0.55)); }
+  60%  { transform: translateY(calc(-100% + 100% * 0.55)); }
   100% { transform: translateY(0%); }
 }
 
-/* ── Light-theme modifier for PetCare-style cards ── */
-.lightCard {
-  background: #fdf6ec;
-  border-radius: 12px;
-  overflow: hidden;
-}
-
+/* ── Light image wrapper for warm-toned projects (PetCare, etc.) ── */
+/* Only the image area gets the warm background — text stays dark-themed */
 .lightCard .imageWrapper {
-  border-color: rgba(0, 0, 0, 0.06);
-}
-
-.lightCard .cardTitle {
-  color: #1a1a1a;
-}
-
-.lightCard .cardDescription {
-  color: rgba(0, 0, 0, 0.55);
-}
-
-.lightCard .cardId {
-  color: rgba(0, 0, 0, 0.3);
-}
-
-.lightCard .cardCategory {
-  background: rgba(0, 0, 0, 0.06);
-  color: rgba(0, 0, 0, 0.5);
-}
-
-.lightCard .cardYear {
-  color: rgba(0, 0, 0, 0.25);
+  border-color: rgba(184, 149, 106, 0.15);
 }
 
 
