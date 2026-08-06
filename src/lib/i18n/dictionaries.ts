@@ -56,9 +56,11 @@ export interface Dictionary {
     ctaHeadingLine2: string;
     ctaButton: string;
     labelEmail: string;
-    labelLocation: string;
-    valueLocation: string;
+    labelPhone: string;
     labelSocials: string;
+    founderName: string;
+    founderRole: string;
+    founderBio: string;
     credit: string;
   };
   hora: {
@@ -203,10 +205,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       ctaHeadingLine1: '¿Tenés un proyecto',
       ctaHeadingLine2: 'en mente?',
       ctaButton: 'Iniciemos un proyecto',
-      labelEmail: 'Email',
-      labelLocation: 'Ubicación',
-      valueLocation: 'Argentina',
-      labelSocials: 'Redes',
+      labelEmail: 'Email directo',
+      labelPhone: 'Teléfono / WhatsApp',
+      labelSocials: 'GitHub / Código',
+      founderName: 'ENZO FERNANDEZ',
+      founderRole: 'Fundador & Desarrollador Full Stack',
+      founderBio: 'Diseño e ingeniería de alto rendimiento para negocios que exigen excelencia.',
       credit: 'Diseñado y desarrollado por Mara Studio',
     },
     hora: {
@@ -351,10 +355,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       ctaHeadingLine1: 'Have a project',
       ctaHeadingLine2: 'in mind?',
       ctaButton: 'Start a project',
-      labelEmail: 'Email',
-      labelLocation: 'Location',
-      valueLocation: 'Argentina',
-      labelSocials: 'Socials',
+      labelEmail: 'Direct Email',
+      labelPhone: 'Phone / WhatsApp',
+      labelSocials: 'GitHub / Code',
+      founderName: 'ENZO FERNANDEZ',
+      founderRole: 'Founder & Full Stack Developer',
+      founderBio: 'High-performance engineering and product design for ambitious ventures.',
       credit: 'Designed and engineered by Mara Studio',
     },
     hora: {

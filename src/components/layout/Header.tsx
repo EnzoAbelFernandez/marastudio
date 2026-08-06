@@ -22,6 +22,7 @@ export function Header() {
   const [isVisible, setIsVisible] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const lastScrollY = useRef(0);
+  const isEntranceDone = useRef(false);
 
   const navItems = [
     { label: t.header.nav.about, href: '/#nosotros' },
@@ -30,28 +31,40 @@ export function Header() {
     { label: t.header.nav.contact, href: '/#contacto' },
   ];
 
-  // ── Show/hide on scroll direction ──
+  // ── Smart Header: Show/hide on scroll direction with hysteresis ──
   useEffect(() => {
-    if (!headerRef.current) return;
+    let ticking = false;
 
-    const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        start: 'top -100',
-        onUpdate: (self) => {
-          const direction = self.direction;
-          if (direction === 1 && self.scroll() > 200) {
-            // Scrolling down — hide
-            setIsVisible(false);
-          } else {
-            // Scrolling up — show
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          const delta = currentScrollY - lastScrollY.current;
+
+          // Always remain visible near the very top of the page or when menu is open
+          if (currentScrollY < 150 || menuOpen) {
             setIsVisible(true);
+          } else if (Math.abs(delta) > 8) {
+            // 8px tolerance threshold prevents trackpad micro-jitter or bounce
+            if (delta > 0) {
+              // Scrolling down — hide
+              setIsVisible(false);
+            } else {
+              // Scrolling up — show
+              setIsVisible(true);
+            }
           }
-        },
-      });
-    });
 
-    return () => ctx.revert();
-  }, []);
+          lastScrollY.current = currentScrollY;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [menuOpen]);
 
   // ── Entrance animation ──
   useEffect(() => {
@@ -64,14 +77,31 @@ export function Header() {
       duration: 1,
       delay: 1.8,
       ease: 'expo.out',
+      onComplete: () => {
+        isEntranceDone.current = true;
+        if (!isVisible && headerRef.current) {
+          gsap.to(headerRef.current, { yPercent: -100, opacity: 0, duration: 0.4, ease: 'power2.in', overwrite: true });
+        }
+      },
     });
   }, []);
+
+  // ── Drive hide/show smoothly via GSAP (avoids inline style conflicts with CSS classes) ──
+  useEffect(() => {
+    if (!headerRef.current || !isEntranceDone.current) return;
+
+    if (isVisible) {
+      gsap.to(headerRef.current, { yPercent: 0, opacity: 1, duration: 0.4, ease: 'power2.out', overwrite: true });
+    } else {
+      gsap.to(headerRef.current, { yPercent: -100, opacity: 0, duration: 0.4, ease: 'power2.in', overwrite: true });
+    }
+  }, [isVisible]);
 
   return (
     <>
       <header
         ref={headerRef}
-        className={`${styles.header} ${isVisible ? styles.visible : styles.hidden}`}
+        className={styles.header}
       >
         <div className={styles.inner}>
           {/* Logo */}

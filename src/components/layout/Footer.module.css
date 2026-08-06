@@ -1,7 +1,7 @@
 .footer {
   position: relative;
   padding: clamp(6rem, 12vw, 14rem) 0 0;
-  background: var(--color-bg);
+  background: var(--color-bg, #050505);
   border-top: 1px solid rgba(255, 255, 255, 0.04);
 }
 
@@ -12,7 +12,7 @@
   padding: 0 clamp(1.5rem, 4vw, 4rem);
 }
 
-/* ── CTA Section ── */
+/* ── Massive Inquiry CTA ── */
 .ctaSection {
   display: flex;
   flex-direction: column;
@@ -23,22 +23,16 @@
 
 .ctaHeading {
   font-family: var(--font-heading);
-  font-size: clamp(2.5rem, 7vw, 6rem);
+  font-size: clamp(2.75rem, 7.5vw, 6.5rem);
   font-weight: 700;
   letter-spacing: -0.04em;
   color: #fafafa;
-  margin: 0 0 clamp(2rem, 4vw, 4rem);
+  margin: 0 0 clamp(2.5rem, 5vw, 4.5rem);
   line-height: 1.05;
 }
 
 .ctaButton {
   will-change: transform, opacity;
-}
-
-.bigButton {
-  padding: 1.5rem 4rem !important;
-  font-size: 1rem !important;
-  border-width: 1px !important;
 }
 
 .buttonText {
@@ -48,84 +42,166 @@
 .buttonArrow {
   display: inline-block;
   font-size: 1.2em;
+  margin-left: 0.5rem;
   transition: transform var(--duration-base) var(--ease-micro);
 }
 
-.bigButton:hover .buttonArrow {
-  transform: translate(3px, -3px);
+/* ── Founder Profile & Direct Channels Grid ── */
+.grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: clamp(3rem, 6vw, 6rem);
+  padding: clamp(3.5rem, 7vw, 5rem) 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  align-items: center;
 }
 
-/* ── Info Bar ── */
-.info {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 3rem 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-
-.infoBlock {
+.founderCard {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1.75rem;
+  align-items: flex-start;
 }
 
-.infoLabel {
-  font-family: var(--font-body);
+.avatarWrapper {
+  width: 96px;
+  height: 96px;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  border: 1px solid rgba(184, 149, 106, 0.35);
+  background: rgba(255, 255, 255, 0.02);
+  box-shadow: 0 0 35px rgba(184, 149, 106, 0.12);
+  transition: transform 0.4s var(--ease-out), border-color 0.4s var(--ease-out);
+}
+
+.founderCard:hover .avatarWrapper {
+  transform: translateY(-4px) scale(1.02);
+  border-color: rgba(184, 149, 106, 0.7);
+  box-shadow: 0 5px 45px rgba(184, 149, 106, 0.25);
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatarMonogram {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading, sans-serif);
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #b8956a;
+  background: radial-gradient(circle at top left, rgba(184, 149, 106, 0.22), transparent 70%);
+  user-select: none;
+}
+
+.founderContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.founderName {
+  font-family: var(--font-body, sans-serif);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #b8956a;
+}
+
+.founderRole {
+  font-family: var(--font-heading, sans-serif);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 700;
+  color: #fafafa;
+  letter-spacing: -0.02em;
+  margin: 0.25rem 0;
+  line-height: 1.1;
+}
+
+.founderBio {
+  font-family: var(--font-body, sans-serif);
+  font-size: clamp(0.9375rem, 1.2vw, 1.125rem);
+  color: rgba(255, 255, 255, 0.65);
+  max-width: 32rem;
+  line-height: 1.6;
+}
+
+/* ── Interactive Contact Channels List ── */
+.contactList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+.contactCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 1.25rem;
+  text-decoration: none;
+  transition: all 0.35s var(--ease-micro);
+  backdrop-filter: blur(12px);
+}
+
+.contactMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.contactLabel {
+  font-family: var(--font-body, sans-serif);
   font-size: 0.6875rem;
   font-weight: 500;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.35);
+  transition: color 0.3s ease;
 }
 
-.infoValue {
-  font-family: var(--font-body);
-  font-size: 0.875rem;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.6);
-  text-decoration: none;
-  transition: color var(--duration-fast) var(--ease-micro);
+.contactValue {
+  font-family: var(--font-body, sans-serif);
+  font-size: clamp(0.9375rem, 1.4vw, 1.125rem);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  transition: color 0.3s ease;
 }
 
-.infoValue:hover {
-  color: rgba(255, 255, 255, 0.9);
+.actionIcon {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.3);
+  transition: transform 0.35s var(--ease-micro), color 0.35s var(--ease-micro);
 }
 
-.socials {
-  display: flex;
-  gap: 1.25rem;
+.contactCard:hover {
+  background: rgba(184, 149, 106, 0.05);
+  border-color: rgba(184, 149, 106, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(184, 149, 106, 0.1);
 }
 
-.socialLink {
-  font-family: var(--font-body);
-  font-size: 0.875rem;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.6);
-  text-decoration: none;
-  position: relative;
-  transition: color var(--duration-fast) var(--ease-micro);
+.contactCard:hover .contactLabel {
+  color: #b8956a;
 }
 
-.socialLink:hover {
-  color: rgba(255, 255, 255, 0.9);
+.contactCard:hover .contactValue {
+  color: #ffffff;
 }
 
-.socialLink::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 0;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.5);
-  transition: width var(--duration-base) var(--ease-impact);
-}
-
-.socialLink:hover::after {
-  width: 100%;
+.contactCard:hover .actionIcon {
+  color: #b8956a;
+  transform: translate(4px, -4px);
 }
 
 /* ── Bottom Bar ── */
@@ -133,40 +209,54 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  padding: 2.5rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .copyright {
-  font-family: var(--font-body);
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.2);
+  font-family: var(--font-body, sans-serif);
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.25);
 }
 
 .credit {
-  font-family: var(--font-body);
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.15);
+  font-family: var(--font-body, sans-serif);
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.2);
 }
 
-/* ── Responsive ── */
-@media (max-width: 768px) {
-  .info {
-    flex-direction: column;
-    gap: 2rem;
+/* ── Responsive Breakpoints ── */
+@media (max-width: 960px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 3.5rem;
+  }
+  
+  .founderCard {
+    align-items: center;
+    text-align: center;
+  }
+
+  .founderBio {
+    max-width: 100%;
+  }
+
+  .contactCard {
+    padding: 1.25rem 1.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .ctaHeading {
+    font-size: clamp(2.25rem, 8vw, 3.5rem);
   }
 
   .bottom {
     flex-direction: column;
-    gap: 0.5rem;
+    justify-content: center;
     text-align: center;
-  }
-
-  .ctaHeading {
-    font-size: clamp(2rem, 8vw, 3rem);
-  }
-
-  .ctaSection {
-    padding-bottom: 4rem;
+    gap: 0.6rem;
   }
 }

@@ -1,0 +1,97 @@
+.container {
+  position: fixed;
+  inset: 0;
+  z-index: 99999; /* Above header, menu overlay, and preloader */
+  pointer-events: none;
+  visibility: hidden;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sliceLeading,
+.sliceMain,
+.sliceTrailing {
+  position: absolute;
+  top: -25vh;
+  left: -45vw;
+  width: 190vw;
+  height: 150vh;
+  transform: skewX(-25deg);
+  transform-origin: center;
+  will-change: transform;
+}
+
+/* Leading edge — Warm Amber / Bronze accent glow with white laser front */
+.sliceLeading {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(184, 149, 106, 0.2) 75%,
+    #b8956a 97%,
+    #ffffff 100%
+  );
+  box-shadow: 5px 0 40px rgba(184, 149, 106, 0.6), 2px 0 15px rgba(255, 255, 255, 0.8);
+  z-index: 1;
+}
+
+/* Main backdrop — Deep obsidian studio black */
+.sliceMain {
+  background: #060608;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+  z-index: 2;
+}
+
+/* Trailing edge — Luminous ribbon revealing the translated page */
+.sliceTrailing {
+  background: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #b8956a 3%,
+    rgba(184, 149, 106, 0.35) 30%,
+    transparent 100%
+  );
+  box-shadow: -5px 0 35px rgba(184, 149, 106, 0.5), -2px 0 15px rgba(255, 255, 255, 0.7);
+  z-index: 1;
+}
+
+/* Centered Typography during transition */
+.textWrapper {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  opacity: 0;
+  will-change: transform, opacity;
+  pointer-events: none;
+  user-select: none;
+}
+
+.label {
+  font-family: var(--font-body, sans-serif);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #b8956a;
+  opacity: 0.9;
+}
+
+.title {
+  font-family: var(--font-heading, var(--font-space-grotesk), sans-serif);
+  font-size: clamp(2.25rem, 6vw, 4.5rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #fafafa;
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
+}
+
+/* Subtle accent dot on the title */
+.dot {
+  color: #b8956a;
+}

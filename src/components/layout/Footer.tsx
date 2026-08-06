@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { EASINGS, DURATIONS } from '@/lib/constants';
@@ -13,14 +13,15 @@ if (typeof window !== 'undefined') {
 }
 
 /**
- * Footer / Contact Section
+ * Re-designed Premium Footer / Contact Section
  *
- * Massive CTA button with magnetic effect, minimal contact info.
- * The "Iniciemos un proyecto" text reveals on scroll.
+ * Combines a massive magnetic project inquiry CTA with a personalized
+ * Studio Principal / Founder signature card and direct communication channels.
  */
 export function Footer() {
   const { t } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
+  const [imgError, setImgError] = useState(false);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -28,10 +29,11 @@ export function Footer() {
     const ctx = gsap.context(() => {
       const heading = sectionRef.current!.querySelector(`.${styles.ctaHeading}`);
       const button = sectionRef.current!.querySelector(`.${styles.ctaButton}`);
-      const info = sectionRef.current!.querySelector(`.${styles.info}`);
+      const founderCard = sectionRef.current!.querySelector(`.${styles.founderCard}`);
+      const contactLinks = sectionRef.current!.querySelectorAll(`.${styles.contactCard}`);
 
       if (heading) {
-        gsap.set(heading, { opacity: 0, y: 60 });
+        gsap.set(heading, { opacity: 0, y: 50 });
         gsap.to(heading, {
           opacity: 1,
           y: 0,
@@ -39,37 +41,56 @@ export function Footer() {
           ease: EASINGS.impact,
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: 'top 70%',
+            start: 'top 75%',
             once: true,
           },
         });
       }
 
       if (button) {
-        gsap.set(button, { opacity: 0, y: 30 });
+        gsap.set(button, { opacity: 0, scale: 0.95 });
         gsap.to(button, {
           opacity: 1,
-          y: 0,
-          duration: DURATIONS.slow,
-          delay: 0.2,
+          scale: 1,
+          duration: DURATIONS.normal,
+          delay: 0.15,
           ease: EASINGS.micro,
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: 'top 70%',
+            start: 'top 75%',
             once: true,
           },
         });
       }
 
-      if (info) {
-        gsap.set(info, { opacity: 0 });
-        gsap.to(info, {
+      if (founderCard) {
+        gsap.set(founderCard, { opacity: 0, x: -30 });
+        gsap.to(founderCard, {
           opacity: 1,
+          x: 0,
           duration: DURATIONS.normal,
-          delay: 0.5,
+          delay: 0.3,
+          ease: EASINGS.reveal,
           scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 70%',
+            trigger: founderCard,
+            start: 'top 85%',
+            once: true,
+          },
+        });
+      }
+
+      if (contactLinks.length > 0) {
+        gsap.set(contactLinks, { opacity: 0, y: 20 });
+        gsap.to(contactLinks, {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          stagger: 0.1,
+          delay: 0.4,
+          ease: EASINGS.micro,
+          scrollTrigger: {
+            trigger: founderCard,
+            start: 'top 85%',
             once: true,
           },
         });
@@ -82,7 +103,7 @@ export function Footer() {
   return (
     <footer ref={sectionRef} className={styles.footer} id="contacto">
       <div className={styles.container}>
-        {/* Massive CTA */}
+        {/* ── Massive Inquiry CTA ── */}
         <div className={styles.ctaSection}>
           <h2 className={styles.ctaHeading}>
             {t.footer.ctaHeadingLine1}
@@ -92,7 +113,7 @@ export function Footer() {
 
           <div className={styles.ctaButton}>
             <MagneticButton
-              href="mailto:hola@marastudio.dev"
+              href="mailto:enzo@marastudio.com.ar"
               strength={0.35}
               size="lg"
             >
@@ -102,30 +123,76 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Info bar */}
-        <div className={styles.info}>
-          <div className={styles.infoBlock}>
-            <span className={styles.infoLabel}>{t.footer.labelEmail}</span>
-            <a href="mailto:hola@marastudio.dev" className={styles.infoValue}>
-              hola@marastudio.dev
-            </a>
-          </div>
-
-          <div className={styles.infoBlock}>
-            <span className={styles.infoLabel}>{t.footer.labelLocation}</span>
-            <span className={styles.infoValue}>{t.footer.valueLocation}</span>
-          </div>
-
-          <div className={styles.infoBlock}>
-            <span className={styles.infoLabel}>{t.footer.labelSocials}</span>
-            <div className={styles.socials}>
-              <a href="#" className={styles.socialLink}>GitHub</a>
-              <a href="#" className={styles.socialLink}>LinkedIn</a>
+        {/* ── Founder Profile & Direct Channels Grid ── */}
+        <div className={styles.grid}>
+          {/* Founder Identity & Authority Card */}
+          <div className={styles.founderCard}>
+            <div className={styles.avatarWrapper}>
+              {!imgError ? (
+                <img
+                  src="/images/enzo_profile.jpg"
+                  alt={t.footer.founderName}
+                  className={styles.avatarImg}
+                  onError={() => setImgError(true)}
+                />
+              ) : (
+                <div className={styles.avatarMonogram} title={t.footer.founderName}>
+                  EF
+                </div>
+              )}
             </div>
+
+            <div className={styles.founderContent}>
+              <span className={styles.founderName}>{t.footer.founderName}</span>
+              <h3 className={styles.founderRole}>{t.footer.founderRole}</h3>
+              <p className={styles.founderBio}>{t.footer.founderBio}</p>
+            </div>
+          </div>
+
+          {/* Interactive Contact Channels */}
+          <div className={styles.contactList}>
+            <a
+              href="mailto:enzo@marastudio.com.ar"
+              className={styles.contactCard}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className={styles.contactMeta}>
+                <span className={styles.contactLabel}>{t.footer.labelEmail}</span>
+                <span className={styles.contactValue}>enzo@marastudio.com.ar</span>
+              </div>
+              <span className={styles.actionIcon}>↗</span>
+            </a>
+
+            <a
+              href="https://wa.me/543814766606"
+              className={styles.contactCard}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className={styles.contactMeta}>
+                <span className={styles.contactLabel}>{t.footer.labelPhone}</span>
+                <span className={styles.contactValue}>+54 381 476 6606</span>
+              </div>
+              <span className={styles.actionIcon}>↗</span>
+            </a>
+
+            <a
+              href="https://github.com/enzoabelfernandez"
+              className={styles.contactCard}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className={styles.contactMeta}>
+                <span className={styles.contactLabel}>{t.footer.labelSocials}</span>
+                <span className={styles.contactValue}>GitHub</span>
+              </div>
+              <span className={styles.actionIcon}>↗</span>
+            </a>
           </div>
         </div>
 
-        {/* Bottom bar */}
+        {/* ── Bottom Bar ── */}
         <div className={styles.bottom}>
           <span className={styles.copyright}>
             © {new Date().getFullYear()} Mara Studio
@@ -138,4 +205,3 @@ export function Footer() {
     </footer>
   );
 }
-
