@@ -21,7 +21,7 @@ if (typeof window !== 'undefined') {
 export function Footer() {
   const { t } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [imgError, setImgError] = useState(false);
+  const [hasImage, setHasImage] = useState(false);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -128,18 +128,21 @@ export function Footer() {
           {/* Founder Identity & Authority Card */}
           <div className={styles.founderCard}>
             <div className={styles.avatarWrapper}>
-              {!imgError ? (
-                <img
-                  src="/images/enzo_profile.jpg"
-                  alt={t.footer.founderName}
-                  className={styles.avatarImg}
-                  onError={() => setImgError(true)}
-                />
-              ) : (
-                <div className={styles.avatarMonogram} title={t.footer.founderName}>
-                  EF
-                </div>
-              )}
+              <div
+                className={styles.avatarMonogram}
+                title={t.footer.founderName}
+                style={{ display: hasImage ? 'none' : 'flex' }}
+              >
+                EF
+              </div>
+              <img
+                src="/images/enzo_profile.jpg"
+                alt={t.footer.founderName}
+                className={styles.avatarImg}
+                style={{ display: hasImage ? 'block' : 'none' }}
+                onLoad={() => setHasImage(true)}
+                onError={() => setHasImage(false)}
+              />
             </div>
 
             <div className={styles.founderContent}>
